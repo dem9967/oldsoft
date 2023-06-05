@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+ h1 {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	}
+	h2 {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	}
+	h3 {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	}
+	body {
+	    background-image: url("istockphoto-1202271595-1024x1024 копия.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+
+
+	}
+	p {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	}
+	body {
+  font-family: "Lato", sans-serif;
+  transition: background-color .5s;
+}
