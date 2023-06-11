@@ -143,12 +143,17 @@ charset="utf-8"></script>
 <div class="yashare-auto-init" data-yashareL10n="ru"
  data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir"
 </div>
+<!-- Top100 (Kraken) Widget -->
+<span id="top100_widget"></span>
+<!-- END Top100 (Kraken) Widget -->
+
 <!-- Top100 (Kraken) Counter -->
 <script>
     (function (w, d, c) {
     (w[c] = w[c] || []).push(function() {
         var options = {
             project: 7715060,
+            element: 'top100_widget',
         };
         try {
             w.top100Counter = new top100(options);
