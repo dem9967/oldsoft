@@ -143,7 +143,37 @@ charset="utf-8"></script>
 <div class="yashare-auto-init" data-yashareL10n="ru"
  data-yashareType="button" data-yashareQuickServices="yaru,vkontakte,facebook,twitter,odnoklassniki,moimir"
 </div>
-	
+<!------ Rambler.Likes script start ------>
+<div class="rambler-share"></div>
+<script>
+(function() {
+var init = function() {
+RamblerShare.init('.rambler-share', {
+	"style": {
+		"tooltipBorderRadius": 1,
+		"tooltipFontSize": 13,
+		"tooltipFontWeight": 400,
+		"tooltipBoxShadowColor": "#fff",
+		"tooltipBoxShadowOffsetY": 0,
+		"tooltipBackground": "#343b4c",
+		"tooltipColor": "#fff"
+	},
+	"utm": "utm_medium=social",
+	"counters": true,
+	"buttons": [
+		"vkontakte",
+		"telegram"
+	]
+});
+};
+var script = document.createElement('script');
+script.onload = init;
+script.async = true;
+script.src = 'https://developers.rambler.ru/likes/v1/widget.js';
+document.head.appendChild(script);
+})();
+</script>
+<!------   Rambler.Likes script end  ------>	
 </p>
 <style>
 .aligncenter {
