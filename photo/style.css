@@ -1,0 +1,10 @@
+@charset "utf-8";
+	body {
+	    background-image: url("istockphoto-1202271595-1024x1024 копия.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+	body {
+  font-family: "Lato", sans-serif;
+  transition: background-color .5s;
+}
