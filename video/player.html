@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>player</title>
+    <link rel="stylesheet" type="text/css" href="player.css">
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="player">
+      <video id="video" src="Это здорово - Николай Носков.mp4"></video>
+      <div class="controls">
+        <button id="playpause">&#9658;</button>
+        <div class="progress">
+          <div class="progress-bar"></div>
+        </div>
+        <div class="time">
+          <span class="current-time">0:00</span> / <span class="duration">0:00</span>
+        </div>
+        <button id="mute">&#128266;</button>
+        <div class="volume">
+          <div class="volume-bar"></div>
+        </div>
+        <button id="fullscreen">&#x1f5d6;</button>
+      </div>
+    </div>
+    <script type="text/javascript">
+
+      var video = document.getElementById("video");
+      var playpause = document.getElementById("playpause");
+      var mute = document.getElementById("mute");
+      var fullscreen = document.getElementById("fullscreen");
+      var progress = document.querySelector(".progress");
+      var progressBar = document.querySelector(".progress-bar");
+      var volume = document.querySelector(".volume");
+      var volumeBar = document.querySelector(".volume-bar");
+      var currentTime = document.querySelector(".current-time");
+      var duration = document.querySelector(".duration");
+
+      function togglePlayPause() {
+        if (video.paused || video.ended) {
+          video.play();
+          playpause.innerHTML = "&#10074;&#10074;";
+        } else {
+          video.pause();
+          playpause.innerHTML = "&#9658;";
+        }
+      }
+
+      function toggleMute() {
+        if (video.muted) {
+          video.muted = false;
+          mute.innerHTML = "&#128266;";
+        } else {
+          video.muted = true;
+          mute.innerHTML = "&#128263;";
+        }
+      }
+
+      function toggleFullscreen() {
+        if (video.requestFullscreen) {
+          video.requestFullscreen();
+        } else if (video.webkitRequestFullscreen) {
+          video.webkitRequestFullscreen();
+        } else if (video.mozRequestFullScreen) {
+          video.mozRequestFullScreen();
+        } else if (video.msRequestFullscreen) {
+          video.msRequestFullscreen();
+        }
+      }
+
+      function updateProgress() {
+        var percent = (video.currentTime / video.duration) * 100;
+        progressBar.style.width = percent + "%";
+        currentTime.innerHTML = formatTime(video.currentTime);
+      }
+
+      function updateVolume() {
+        var percent = video.volume * 100;
+        volumeBar.style.width = percent + "%";
+      }
+
+      function formatTime(time) {
+        var minutes = Math.floor(time / 60);
+        var seconds = Math.floor(time % 60);
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        }
+        return minutes + ":" + seconds;
+      }
+
+      playpause.addEventListener("click", togglePlayPause);
+      mute.addEventListener("click", toggleMute);
+      fullscreen.addEventListener("click", toggleFullscreen);
+
+      video.addEventListener("timeupdate", updateProgress);
+
+      progress.addEventListener("click", function(e) {
+        var percent = (e.offsetX / progress.offsetWidth) * 100;
+        video.currentTime = (video.duration / 100) * percent;
+      });
+
+      volume.addEventListener("click", function(e) {
+        var percent = (e.offsetX / volume.offsetWidth);
+        video.volume = percent;
+      });
+
+      video.addEventListener("loadedmetadata", function() {
+        duration.innerHTML = formatTime(video.duration);
+      });
+
+      video.addEventListener("volumechange", updateVolume);
+      var myPlayer = videojs('my-video');
+
+  // Скрываем кнопки управления при загрузке страницы
+  myPlayer.userActive(false);
+
+  // Показываем кнопки управления при наведении курсора
+  myPlayer.on('mousemove', function() {
+    myPlayer.userActive(true);
+  });
+
+  // Скрываем кнопки управления через 3 секунды после последнего движения курсора
+  var timer = null;
+  myPlayer.on('mousemove', function() {
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+      myPlayer.userActive(false);
+    }, 3000);
+  });
+    </script>
+  </body>
+</html>
