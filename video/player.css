@@ -1,3 +1,9 @@
+/* Стилизуем заголовок */
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px;
+}
 /* Изменяем ширину и высоту div */
 div.my-div {
   width: 300px;
