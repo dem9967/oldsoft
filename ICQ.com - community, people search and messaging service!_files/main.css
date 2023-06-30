@@ -1,0 +1,107 @@
+body{margin:0px;padding:0px;font-family:verdana,tahoma,sans-serif;font-size:11px;color:#000000;background: url(https://web.archive.org/web/20100106142348im_/http://c.icq.com/homepage/img/right_bg_2.jpg) center 97px no-repeat;}
+.sp-14{height:14px;line-height:14px;}
+
+/** For April Fools joke **/
+.flash{position:absolute; top: -13px; padding-top:13px; margin-left:-5px; padding-left:0px; width:1000px; overflow:hidden; z-index:100; width:100%; text-align: center;}
+
+/** Header Styles **/
+.h{position:relative;right:4px;width:994px;margin-top:18px;height:146px;z-index:50;}
+/**.h{width:994px;margin-top:18px;height:146px;} left side**/
+.h0 {display: none;}
+.h1{position:relative;width:986px;height:85px;margin:0px;padding:0px;text-align:left;}
+.h1-1{position:relative;float:left;left:72px;}
+.h1 iframe{float:right;width:569px;height:63px;margin-top:11px;}
+
+/* Main menu */
+.h2{float:left;position:absolute;top:100px;left:76px;z-index:10;margin:0px;padding:0px;}
+.h2 ul{list-style:none;margin:0px;padding:0px;z-index:50;}
+.main_li{position:relative;top:0px;float:left;margin-right:2px;height:25px;background:#4CAA26 url("/web/20100106142348im_/http://c.icq.com/img/template/lt_corner.gif") top left no-repeat;overflow:hidden;}
+.main_li a:link, .main_li a:hover, .main_li a:visited{float:left;display:block;height:25px;padding:1px 7px 0px 13px;text-decoration:none;color:#fff;font-weight:bold;background:url("/web/20100106142348im_/http://c.icq.com/img/template/rb_corner.gif") right bottom no-repeat;}
+.ul_sub_menu{position:absolute;top:25px;left:0px;list-style:none;margin:0px;padding:0px;text-align:left;font-weight:bold;z-index:50;}
+.li_sb_mn{float:left;color:#FFFFFF;clear:both;cursor:pointer;background:url("/web/20100106142348im_/http://c.icq.com/img/template/white_otuline.gif") top left no-repeat;}
+.sb-end{float:left;clear:both;width:130px;}
+.sb-end-1{float:left;height:16px;width:114px;background:#75B85A url("/web/20100106142348im_/http://c.icq.com/img/template/white_otuline.gif") no-repeat left top;}
+.sb-end-2{float:left;height:16px;}
+.li_sb_mn_sp{float:left;height:1px;line-height:0px;font-size:0px;background-color:#FFFFFF;color:#FFFFFF;}
+a.sb-lnk:link,a.sb-lnk:hover,a.sb-lnk:visited{float:left;display:block;padding:0px;height:19px;line-height:19px;text-decoration:none;color:#fff;font-weight:bold;z-index:40;background:#75B85A url("/web/20100106142348im_/http://c.icq.com/img/template/white_otuline.gif") right top no-repeat;}
+a.sb-lnk:hover{background-image:url("/web/20100106142348im_/http://c.icq.com/img/template/white_otuline.gif") right top no-repeat;}
+.h2-arr-img{margin:4px 8px 0px 7px;}
+.h2-arr-img-d{float:left;height:20px;background:url("https://web.archive.org/web/20100106142348im_/http://c.icq.com/img/template/white_otuline.gif") no-repeat left top;display:block;}
+.sb-end-ln {width:100%;height:1px;line-height:1px;background:#fff;font-size:0px;margin-top:15px;}
+
+#mn-itm0{position:relative;top:-11px;background-color:#A7E174;color:#306A19;}
+#mn-itm0 a{color:#306A19;}
+#ul_sub_menu1 a:link, #ul_sub_menu1 a:visited , #ul_sub_menu2 a:link, #ul_sub_menu2 a:visited , #ul_sub_menu5 a:link, #ul_sub_menu5 a:visited {width:130px;}
+#mn-itm6-1 a:link,#mn-itm6-1 a:visited,#mn-itm6-2 a:link,#mn-itm6-2 a:visited,#mn-itm6-3 a:link,#mn-itm6-3 a:visited,#mn-itm6-4 a:link,#mn-itm6-4 a:visited,#mn-itm6-5 a:link,#mn-itm6-5 a:visited{width:155px;}
+#mn-itm1-1 a:hover,#mn-itm1-2 a:hover,#mn-itm1-3 a:hover,#mn-itm1-4 a:hover,#mn-itm1-5 a:hover,#mn-itm1-6 a:hover{background-color:#2861D4;width:130px;}
+#mn-itm2-1 a:hover{background-color:#BC9400;} #mn-itm2-2 a:hover{background-color:#FC021E;} #mn-itm5-1 a:hover{background-color:#FB029A;} #mn-itm5-2 a:hover{background-color:#00C7C4;} #mn-itm5-3 a:hover{background-color:#419020;} #mn-itm6-1 a:hover{background-color:#8B587A;} #mn-itm6-2 a:hover{background-color:#419020;} #mn-itm6-3 a:hover{background-color:#419020;} #mn-itm6-4 a:hover{background-color:#2760D3;} #mn-itm6-5 a:hover{background-color:#10A7EC;} 
+#mn-itm_end-6{width:155px;} #mn-itm_end-1-6{width:139px;}
+#mn-itm3{display:block;}
+#search_banner{float:right;width:670px;height:90px;margin-top:-4px;}
+/* New main menu */ 
+
+/** End Header Styles **/
+
+/** Body Styles **/
+.d-main{width:994px;text-align:left;}
+.d{left:72px;position:relative;width:925px;background:#459922 url('https://web.archive.org/web/20100106142348im_/http://c.icq.com/homepage/img/left_bg_middle.jpg') top left no-repeat;}
+.d1{width:772px;margin-left:10px;padding-top:10px;position:relative;left:143px;}
+
+.d1-1{width:760px;height:243px;}
+.d1-1-1{float:left;width:398px;margin-right:10px;}
+.d1-1-1-1{float:left;width:195px; height:243px;}
+.d1-1-1-2{float:right;width:195px; height:243px;}
+.d1-1-2{float:left;width:352px;height:243px;}
+
+.d1-2{width:760px; height:210px;margin-top:10px;}
+.d1-2-1{float:left;width:398px; height:210px;margin-right:10px; }
+.d1-2-1-b{float:left;width:398px; height:210px;margin-right:10px;}
+.d1-2-1-1{float:left;width:195px; height:210px;}
+.d1-2-1-2{float:right;width:195px; height:210px;}
+.d1-2-2{float:left;width:352px;height:210px;}
+.d1-2-2-b{float:left;width:352px;height:210px;}
+.d1-2-2-1{float:left; width:155px;height:210px;}
+.d1-2-2-2{float:right; width:189px;height:210px;}
+.d1-search_flash{height:135px;margin-top:10px;width:760px;}
+
+/* Left Menu div **/
+.d-top{position:absolute;left:-84px;top:-6px;width:236px;z-index:5;}
+.d-top-1{}
+.d-top-2{position:relative;left:53px;top:0px;height:102px;background:url('https://web.archive.org/web/20100106142348im_/http://c.icq.com/homepage/img/left_loginbox.gif') top left no-repeat;}
+.d-top-3{position:relative;left:80px;width:95;height:95px;margin-left:27px;margin-top:28px;}
+.d-top-4 {cursor:pointer;height:78px;margin-left:60px;margin-top:28px;width:93px;}
+.left_bottom{position:relative;left:14px;}
+/* End Left Menu div **/
+
+/*LSP div **/
+.lsp{width:760px;height:115px;margin-top:10px;background:#FFFF00;}
+/* End LSP div **/
+
+/** End Body Styles **/
+
+/** Footer Styles **/
+.f{margin-top:25px;width:770px;height:80px;font-family: arial;font-size: 10px;clear: both;background: url(https://web.archive.org/web/20100106142348im_/http://c.icq.com/img/template/footer_pix.gif) top repeat-x;}
+.f-lnk-d{padding-top:10px;color: #419120;}
+a.f-lnk:link,a.f-lnk:visited,a.f-lnk:hover{color:#419120;font-family:verdana, tahoma, arial;font-weight:normal;text-decoration:none;}
+.f-end{color:#818181;}
+/** End Footer Styles **/
+/*
+     FILE ARCHIVED ON 14:23:48 Jan 06, 2010 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 08:18:00 Jun 30, 2023.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 440.121
+  exclusion.robots: 0.153
+  exclusion.robots.policy: 0.141
+  cdx.remote: 0.074
+  esindex: 0.015
+  LoadShardBlock: 314.238 (3)
+  PetaboxLoader3.datanode: 274.65 (4)
+  PetaboxLoader3.resolve: 94.387 (2)
+  load_resource: 99.288
+*/

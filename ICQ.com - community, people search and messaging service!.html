@@ -1,0 +1,907 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!-- saved from url=(0126)file:///C:/Users/user/Downloads/neo_material/icq/ICQ.com%20-%20community,%20people%20search%20and%20messaging%20service!.html? -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./ICQ.com - community, people search and messaging service!_files/analytics.js(1).Без названия" type="text/javascript"></script><script>/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+var __webpack_exports__ = {};
+
+;// CONCATENATED MODULE: ../core/dist/flash-identifiers.js
+const FLASH_MIMETYPE = "application/x-shockwave-flash";
+const FUTURESPLASH_MIMETYPE = "application/futuresplash";
+const FLASH7_AND_8_MIMETYPE = "application/x-shockwave-flash2-preview";
+const FLASH_MOVIE_MIMETYPE = "application/vnd.adobe.flash.movie";
+const FLASH_ACTIVEX_CLASSID = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000";
+
+;// CONCATENATED MODULE: ../core/dist/plugin-polyfill.js
+
+/**
+ * Replacement object for `MimeTypeArray` that lets us install new fake mime
+ * types.
+ *
+ * Unlike plugins we can at least enumerate mime types in Firefox, so we don't
+ * lose data.
+ *
+ * We also expose a method called `install` which adds a new plugin. This is
+ * used to falsify Flash detection. If the existing `navigator.mimeTypes` has an
+ * `install` method, you should not use `RuffleMimeTypeArray` as some other
+ * plugin emulator is already present.
+ */
+class RuffleMimeTypeArray {
+    constructor(mimeTypes) {
+        this.__mimeTypes = [];
+        this.__namedMimeTypes = {};
+        if (mimeTypes) {
+            for (let i = 0; i < mimeTypes.length; i++) {
+                this.install(mimeTypes[i]);
+            }
+        }
+    }
+    /**
+     * Install a MIME Type into the array.
+     *
+     * @param mimeType The mime type to install
+     */
+    install(mimeType) {
+        const index = this.__mimeTypes.length;
+        this.__mimeTypes.push(mimeType);
+        this.__namedMimeTypes[mimeType.type] = mimeType;
+        this[mimeType.type] = mimeType;
+        this[index] = mimeType;
+    }
+    item(index) {
+        // This behavior is done to emulate a 32-bit uint,
+        // which browsers use.
+        return this.__mimeTypes[index >>> 0];
+    }
+    namedItem(name) {
+        return this.__namedMimeTypes[name];
+    }
+    get length() {
+        return this.__mimeTypes.length;
+    }
+    [Symbol.iterator]() {
+        return this.__mimeTypes[Symbol.iterator]();
+    }
+}
+/**
+ * Equivalent object to `Plugin` that allows us to falsify plugins.
+ */
+class RufflePlugin extends RuffleMimeTypeArray {
+    constructor(name, description, filename) {
+        super();
+        this.name = name;
+        this.description = description;
+        this.filename = filename;
+    }
+}
+/**
+ * Replacement object for `PluginArray` that lets us install new fake plugins.
+ *
+ * This object needs to wrap the native plugin array, since the user might have
+ * actual plugins installed. Firefox doesn't let us enumerate the array, though,
+ * which has some consequences. Namely, we can't actually perfectly wrap the
+ * native plugin array, at least unless there's some secret "unresolved object
+ * property name handler" that I've never known before in JS...
+ *
+ * We can still wrap `namedItem` perfectly at least.
+ *
+ * We also expose a method called `install` which adds a new plugin. This is
+ * used to falsify Flash detection. If the existing `navigator.plugins` has an
+ * `install` method, you should not use `RufflePluginArray` as some other plugin
+ * emulator is already present.
+ */
+class RufflePluginArray {
+    constructor(plugins) {
+        this.__plugins = [];
+        this.__namedPlugins = {};
+        for (let i = 0; i < plugins.length; i++) {
+            this.install(plugins[i]);
+        }
+    }
+    install(plugin) {
+        const index = this.__plugins.length;
+        this.__plugins.push(plugin);
+        this.__namedPlugins[plugin.name] = plugin;
+        this[plugin.name] = plugin;
+        this[index] = plugin;
+    }
+    item(index) {
+        // This behavior is done to emulate a 32-bit uint,
+        // which browsers use. Cloudflare's anti-bot
+        // checks rely on this.
+        return this.__plugins[index >>> 0];
+    }
+    namedItem(name) {
+        return this.__namedPlugins[name];
+    }
+    refresh() {
+        // Nothing to do, we just need to define the method.
+    }
+    [Symbol.iterator]() {
+        return this.__plugins[Symbol.iterator]();
+    }
+    get length() {
+        return this.__plugins.length;
+    }
+}
+/**
+ * A fake plugin designed to trigger Flash detection scripts.
+ */
+const FLASH_PLUGIN = new RufflePlugin("Shockwave Flash", "Shockwave Flash 32.0 r0", "ruffle.js");
+/**
+ * A fake plugin designed to allow early detection of if the Ruffle extension is in use.
+ */
+const RUFFLE_EXTENSION = new RufflePlugin("Ruffle Extension", "Ruffle Extension", "ruffle.js");
+FLASH_PLUGIN.install({
+    type: FUTURESPLASH_MIMETYPE,
+    description: "Shockwave Flash",
+    suffixes: "spl",
+    enabledPlugin: FLASH_PLUGIN,
+});
+FLASH_PLUGIN.install({
+    type: FLASH_MIMETYPE,
+    description: "Shockwave Flash",
+    suffixes: "swf",
+    enabledPlugin: FLASH_PLUGIN,
+});
+FLASH_PLUGIN.install({
+    type: FLASH7_AND_8_MIMETYPE,
+    description: "Shockwave Flash",
+    suffixes: "swf",
+    enabledPlugin: FLASH_PLUGIN,
+});
+FLASH_PLUGIN.install({
+    type: FLASH_MOVIE_MIMETYPE,
+    description: "Shockwave Flash",
+    suffixes: "swf",
+    enabledPlugin: FLASH_PLUGIN,
+});
+RUFFLE_EXTENSION.install({
+    type: "",
+    description: "Ruffle Detection",
+    suffixes: "",
+    enabledPlugin: RUFFLE_EXTENSION,
+});
+/**
+ * Install a fake plugin such that detectors will see it in `navigator.plugins`.
+ *
+ * This function takes care to check if the existing implementation of
+ * `navigator.plugins` already accepts fake plugin entries. If so, it will use
+ * that version of the plugin array. This allows the plugin polyfill to compose
+ * across multiple plugin emulators with the first emulator's polyfill winning.
+ *
+ * @param plugin The plugin to install
+ */
+function installPlugin(plugin) {
+    if (!("install" in navigator.plugins) || !navigator.plugins["install"]) {
+        Object.defineProperty(navigator, "plugins", {
+            value: new RufflePluginArray(navigator.plugins),
+            writable: false,
+        });
+    }
+    const plugins = navigator.plugins;
+    plugins.install(plugin);
+    if (plugin.length > 0 &&
+        (!("install" in navigator.mimeTypes) || !navigator.mimeTypes["install"])) {
+        Object.defineProperty(navigator, "mimeTypes", {
+            value: new RuffleMimeTypeArray(navigator.mimeTypes),
+            writable: false,
+        });
+    }
+    const mimeTypes = navigator.mimeTypes;
+    for (let i = 0; i < plugin.length; i += 1) {
+        mimeTypes.install(plugin[i]);
+    }
+}
+
+;// CONCATENATED MODULE: ./src/plugin-polyfill.ts
+// This file is compiled and then injected into content.ts's compiled form.
+
+installPlugin(FLASH_PLUGIN);
+installPlugin(RUFFLE_EXTENSION);
+
+/******/ })()
+;</script><script charset="utf-8" src="chrome-extension://donbcfbmhbcapadipfkeojnmajbakjdc/dist/ruffle.js?id=12067123272"></script>
+<script type="text/javascript">window.addEventListener('DOMContentLoaded',function(){var v=archive_analytics.values;v.service='wb';v.server_name='wwwb-app228.us.archive.org';v.server_ms=661;archive_analytics.send_pageview({});});</script>
+<script type="text/javascript" src="file:///C:/Users/user/Downloads/neo_material/icq/ICQ.com%20-%20community,%20people%20search%20and%20messaging%20service!_files/bundle-playback.js.%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F" charset="utf-8"></script>
+<script type="text/javascript" src="file:///C:/Users/user/Downloads/neo_material/icq/ICQ.com%20-%20community,%20people%20search%20and%20messaging%20service!_files/wombat.js.%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F" charset="utf-8"></script>
+<script type="text/javascript">
+  __wm.init("https://web.archive.org/web");
+  __wm.wombat("http://www.icq.com/","20100106162323","https://web.archive.org/","web","/_static/",
+	      "1262795003");
+</script>
+<link rel="stylesheet" type="text/css" href="./ICQ.com - community, people search and messaging service!_files/banner-styles.css">
+<link rel="stylesheet" type="text/css" href="./ICQ.com - community, people search and messaging service!_files/iconochive.css">
+<!-- End Wayback Rewrite JS Include -->
+
+
+	<meta name="keywords" content="ICQ, Download ICQ, ICQ messenger, Windows Live Messenger, Yahoo Messenger, AIM, ICQ Client, ICQ Chat, ICQ Home, Home, Discussion Forums, Community, Threads, Post Threads, Forums, Groups, Blog, Blogs, open blog, free blog, online diary, Free online games, ICQ Games, RPS Games, ICQ Games Center, Downloads, Internet, Online &amp; Web, Messenger, VoIP, Toolbar, Find a date, chat with friends, Meet friends, IRC, free chat, MIRC, Chat Rooms, Chat Room, ecards, Greeting Cards, 愛聊天">
+	<meta name="description" content="Welcome to ICQ home, the place to download ICQ, take part in our multilingual community through blogs, forums, and free online games. You can also meet friends, find a date, chat in our Chat Rooms, and send Greeting Cards - check it out!">
+	<meta name="author" content="ICQ Inc.">
+	<title>ICQ.com - community, people search and messaging service!</title>
+	<script language="JavaScript" type="text/javascript">
+		try { document.execCommand("BackgroundImageCache", false, true);} catch(e) {}
+	</script>
+
+		<link rel="stylesheet" type="text/css" href="./ICQ.com - community, people search and messaging service!_files/content.css">
+		<link rel="stylesheet" type="text/css" href="./ICQ.com - community, people search and messaging service!_files/main.css">
+		<script language="javascript" type="text/javascript" src="file:///C:/Users/user/Downloads/neo_material/icq/ICQ.com%20-%20community,%20people%20search%20and%20messaging%20service!_files/index.js.%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F"></script>
+		<script language="javascript" type="text/javascript" src="file:///C:/Users/user/Downloads/neo_material/icq/ICQ.com%20-%20community,%20people%20search%20and%20messaging%20service!_files/data1106012010.js.%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F"></script>
+		<script type="text/javascript" language="JavaScript" src="file:///C:/Users/user/Downloads/neo_material/icq/ICQ.com%20-%20community,%20people%20search%20and%20messaging%20service!_files/AC_ActiveX.js.%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F"></script>
+		<script type="text/javascript" language="JavaScript" src="file:///C:/Users/user/Downloads/neo_material/icq/ICQ.com%20-%20community,%20people%20search%20and%20messaging%20service!_files/AC_RunActiveContent.js.%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F"></script>
+
+		<script language="javascript" type="text/javascript">
+		function include(script_filename) {
+		    document.write('<' + 'script');
+		    document.write(' language="javascript"');
+		    document.write(' type="text/javascript"');
+		    document.write(' src="' + script_filename + '">');
+		    document.write('</' + 'script' + '>');
+		}
+
+		if(!readCookie("geo")) include("/dmedia/geo.js");
+		</script>
+
+	<script language="JavaScript" type="text/javascript">
+	var gl_cc = readCookie("geo");
+	show_banner = false;
+	switch(gl_cc) {
+		case '7':
+			show_banner = true;
+			document.write('<link rel="stylesheet" type="text/css" href="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/css/main_banner.css">');
+			include("https://web.archive.org/web/20100106162323/http://ar.atwola.com/file/adsWrapper.js");
+			break;
+		/*case '49':
+			include("https://web.archive.org/web/20100106162323/http://www.icq.com/specials/clubcardms/admin/clubshop/data/box.js");
+		*/
+	}
+	</script>
+</head>
+<body><!-- BEGIN WAYBACK TOOLBAR INSERT -->
+<script>__wm.rw(0);</script>
+<div id="wm-ipp-base" lang="en" style="display: block; direction: ltr; height: 1px;"><template shadowrootmode="closed"><div id="wm-ipp" style="position:fixed;left:0;top:0;right:0;">
+<div id="donato" style="position:relative;width:100%;">
+  <div id="donato-base">
+    <iframe id="donato-if" src="https://archive.org/includes/donate.php?as_page=1&amp;platform=wb&amp;referer=https%3A//web.archive.org/web/20100106162323/http%3A//www.icq.com/" scrolling="no" frameborder="0" style="width:100%; height:100%">
+    </iframe>
+  </div>
+</div><div id="wm-ipp-inside" style="display: none;">
+  <div id="wm-toolbar" style="position:relative;display:flex;flex-flow:row nowrap;justify-content:space-between;">
+    <div id="wm-logo" style="/*width:110px;*/padding-top:12px;">
+      <a href="https://web.archive.org/web/" title="Wayback Machine home page"><img src="https://web.archive.org/_static/images/toolbar/wayback-toolbar-logo-200.png" srcset="/_static/images/toolbar/wayback-toolbar-logo-100.png, /_static/images/toolbar/wayback-toolbar-logo-150.png 1.5x, /_static/images/toolbar/wayback-toolbar-logo-200.png 2x" alt="Wayback Machine" style="width:100px" border="0"></a>
+    </div>
+    <div class="c" style="display:flex;flex-flow:column nowrap;justify-content:space-between;flex:1;">
+      <form class="u" style="display:flex;flex-direction:row;flex-wrap:nowrap;" target="_top" method="get" action="https://web.archive.org/web/submit" name="wmtb" id="wmtb"><input type="text" name="url" id="wmtbURL" value="http://www.icq.com/" onfocus="this.focus();this.select();" style="flex:1;" autocomplete="off"><input type="hidden" name="type" value="replay"><input type="hidden" name="date" value="20100106162323"><input type="submit" value="Go">
+      </form>
+      <div style="display:flex;flex-flow:row nowrap;align-items:flex-end;">
+                <div class="s" id="wm-nav-captures" style="flex:1;"><a class="t" href="https://web.archive.org/web/*/http://www.icq.com/" title="See a list of every capture for this URL">93,932 captures</a><div class="r" title="Timespan for captures of this URL">8 Apr 1997 - 30 Jun 2023</div></div>
+        <div class="k">
+          <a href="https://web.archive.org/web/20100106162323/http://www.icq.com/" id="wm-graph-anchor">
+            <div id="wm-ipp-sparkline" title="Explore captures for this URL" style="position: relative">
+              <canvas id="wm-sparkline-canvas" width="700" height="27" border="0"></canvas>
+            <div class="yt" style="display: none; width: 25px; height: 27px;"></div><div class="mt" style="display: none; width: 2px; height: 27px;"></div></div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="n">
+      <table>
+        <tbody>
+          <!-- NEXT/PREV MONTH NAV AND MONTH INDICATOR -->
+          <tr class="m">
+            <td class="b" nowrap="nowrap"><a href="https://web.archive.org/web/20091202111935/http://www.icq.com:80/" title="02 Dec 2009"><strong>Dec</strong></a></td>
+            <td class="c" id="displayMonthEl" title="You are here: 16:23:23 Jan 06, 2010">JAN</td>
+            <td class="f" nowrap="nowrap"><a href="https://web.archive.org/web/20100209052550/http://www.icq.com:80/" title="09 Feb 2010"><strong>Feb</strong></a></td>
+          </tr>
+          <!-- NEXT/PREV CAPTURE NAV AND DAY OF MONTH INDICATOR -->
+          <tr class="d">
+            <td class="b" nowrap="nowrap"><a href="https://web.archive.org/web/20100102003314/http://icq.com/" title="00:33:14 Jan 02, 2010"><img src="https://web.archive.org/_static/images/toolbar/wm_tb_prv_on.png" alt="Previous capture" width="14" height="16" border="0"></a></td>
+            <td class="c" id="displayDayEl" style="width:34px;font-size:22px;white-space:nowrap;" title="You are here: 16:23:23 Jan 06, 2010">06</td>
+            <td class="f" nowrap="nowrap"><a href="https://web.archive.org/web/20100110041046/http://www.icq.com:80/" title="04:10:46 Jan 10, 2010"><img src="https://web.archive.org/_static/images/toolbar/wm_tb_nxt_on.png" alt="Next capture" width="14" height="16" border="0"></a></td>
+          </tr>
+          <!-- NEXT/PREV YEAR NAV AND YEAR INDICATOR -->
+          <tr class="y">
+            <td class="b" nowrap="nowrap"><a href="https://web.archive.org/web/20090103040551/http://www.icq.com:80/" title="03 Jan 2009"><strong>2009</strong></a></td>
+            <td class="c" id="displayYearEl" title="You are here: 16:23:23 Jan 06, 2010">2010</td>
+            <td class="f" nowrap="nowrap"><a href="https://web.archive.org/web/20110107214023/http://icq.com/" title="07 Jan 2011"><strong>2011</strong></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="r" style="display:flex;flex-flow:column nowrap;align-items:flex-end;justify-content:space-between;">
+      <div id="wm-btns" style="text-align:right;height:23px;">
+                <span class="xxs">
+          <div id="wm-save-snapshot-success">success</div>
+          <div id="wm-save-snapshot-fail">fail</div>
+          <a id="wm-save-snapshot-open" href="https://web.archive.org/web/20100106162323/http://www.icq.com/#" title="Share via My Web Archive" style="display: none;">
+            <span class="iconochive-web"></span>
+          </a>
+          <a href="https://archive.org/account/login.php" title="Sign In" id="wm-sign-in" style="display: inline-block;">
+            <span class="iconochive-person"></span>
+          </a>
+          <span id="wm-save-snapshot-in-progress" class="iconochive-web" style="display: none;"></span>
+        </span>
+                <a class="xxs" href="http://faq.web.archive.org/" title="Get some help using the Wayback Machine" style="top:-6px;"><span class="iconochive-question" style="color:rgb(87,186,244);font-size:160%;"></span></a>
+        <a id="wm-tb-close" href="https://web.archive.org/web/20100106162323/http://www.icq.com/#close" style="top:-2px;" title="Close the toolbar"><span class="iconochive-remove-circle" style="color:#888888;font-size:240%;"></span></a>
+      </div>
+      <div id="wm-share" class="xxs">
+        <a href="https://web.archive.org/web/20100106162323/http://web.archive.org/screenshot/http://www.icq.com/" id="wm-screenshot" title="screenshot" style="visibility: hidden;">
+          <span class="wm-icon-screen-shot"></span>
+        </a>
+        <a href="https://web.archive.org/web/20100106162323/http://www.icq.com/#" id="wm-video" title="video">
+          <span class="iconochive-movies"></span>
+        </a>
+        <a id="wm-share-facebook" href="https://web.archive.org/web/20100106162323/http://www.icq.com/#" data-url="https://web.archive.org/web/20100106162323/http://www.icq.com/" title="Share on Facebook" style="margin-right:5px;" target="_blank"><span class="iconochive-facebook" style="color:#3b5998;font-size:160%;"></span></a>
+        <a id="wm-share-twitter" href="https://web.archive.org/web/20100106162323/http://www.icq.com/#" data-url="https://web.archive.org/web/20100106162323/http://www.icq.com/" title="Share on Twitter" style="margin-right:5px;" target="_blank"><span class="iconochive-twitter" style="color:#1dcaff;font-size:160%;"></span></a>
+      </div>
+      <div style="padding-right:2px;text-align:right;white-space:nowrap;">
+        <a id="wm-expand" class="wm-btn wm-closed" href="https://web.archive.org/web/20100106162323/http://www.icq.com/#expand" onclick="__wm.ex(event);return false;"><span id="wm-expand-icon" class="iconochive-down-solid"></span> <span class="xxs" style="font-size:80%;">About this capture</span></a>
+      </div>
+    </div>
+  </div>
+    <div id="wm-capinfo" style="border-top:1px solid #777;display:none; overflow: hidden">
+        <div id="wm-capinfo-notice" source="api"></div>
+                <div id="wm-capinfo-collected-by">
+    <div style="background-color:#666;color:#fff;font-weight:bold;text-align:center">COLLECTED BY</div>
+    <div style="padding:3px;position:relative" id="wm-collected-by-content">
+            <div style="display:inline-block;vertical-align:top;width:50%;">
+			<span class="c-logo" style="background-image:url(https://archive.org/services/img/webwidecrawl);"></span>
+		Organization: <a style="color:#33f;" href="https://archive.org/details/webwidecrawl" target="_new"><span class="wm-title">Internet Archive</span></a>
+		<div style="max-height:75px;overflow:hidden;position:relative;">
+	  <div style="position:absolute;top:0;left:0;width:100%;height:75px;background:linear-gradient(to bottom,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 90%,rgba(255,255,255,255) 100%);"></div>
+	  The Internet Archive discovers and captures web pages through many different web crawls.
+
+At any given time several distinct crawls are running, some for months, and some every day or longer.
+
+View the web archive through the <a href="http://archive.org/web/web.php">Wayback Machine</a>.
+	</div>
+	      </div>
+      <div style="display:inline-block;vertical-align:top;width:49%;">
+			<span class="c-logo" style="background-image:url(https://archive.org/services/img/survey_com_2009-2010)"></span>
+		<div>Collection: <a style="color:#33f;" href="https://archive.org/details/survey_com_2009-2010" target="_new"><span class="wm-title">COM Survey Crawl 2009-2010</span></a></div>
+		<div style="max-height:75px;overflow:hidden;position:relative;">
+	  <div style="position:absolute;top:0;left:0;width:100%;height:75px;background:linear-gradient(to bottom,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 90%,rgba(255,255,255,255) 100%);"></div>
+	  COM survey crawl data collected by Internet Archive in 2009-2010.  This data is currently not publicly accessible.
+	</div>
+	      </div>
+    </div>
+    </div>
+    <div id="wm-capinfo-timestamps">
+    <div style="background-color:#666;color:#fff;font-weight:bold;text-align:center" title="Timestamps for the elements of this page">TIMESTAMPS</div>
+    <div>
+      <div id="wm-capresources" style="margin:0 5px 5px 5px;max-height:250px;overflow-y:scroll !important"></div>
+      <div id="wm-capresources-loading" style="text-align:left;margin:0 20px 5px 5px;display:none"><img src="https://web.archive.org/_static/images/loading.gif" alt="loading"></div>
+    </div>
+    </div>
+  </div></div></div><link rel="stylesheet" type="text/css" href="./ICQ.com - community, people search and messaging service!_files/banner-styles.css"><link rel="stylesheet" type="text/css" href="./ICQ.com - community, people search and messaging service!_files/iconochive.css"><div class="wb-autocomplete-suggestions " style="left: 0px; top: 0px; width: 0px;"></div></template>
+</div><div id="wm-ipp-print">The Wayback Machine - https://web.archive.org/web/20100106162323/http://www.icq.com/</div>
+<script type="text/javascript">//<![CDATA[
+__wm.bt(700,27,25,2,"web","http://www.icq.com/","20100106162323",1996,"/_static/",["/_static/css/banner-styles.css?v=S1zqJCYt","/_static/css/iconochive.css?v=qtvMKcIJ"], false);
+  __wm.rw(1);
+//]]></script>
+<!-- END WAYBACK TOOLBAR INSERT -->
+
+<center>
+<!-- Header -->
+<div class="h">
+	<div class="h0" id="banner">
+		<script type="text/javascript" language="JavaScript1.1">
+			<!--
+			if(show_banner){adSetAMS('1'); htmlAdWH(93170829, '728', '90');}
+			//-->
+		</script>
+		<noscript>
+			<a href="https://web.archive.org/web/20100106162323/http://ar.atwola.com/link/93170829/aol">
+			<img src="https://web.archive.org/web/20100106162323im_/http://ar.atwola.com/image/93170829/aol" alt="Click here to visit our advertiser." width="728" height="90" border="1"></a>
+		</noscript>
+	</div>
+	<div class="h1">
+		<div class="h1-1"><img src="./ICQ.com - community, people search and messaging service!_files/gf.png" width="157" height="76" border="0" alt=""></div>
+		<!-- Search Box Start -->
+
+		<script async="" src="./ICQ.com - community, people search and messaging service!_files/f.txt">
+</script>
+<div class="gcse-search"></div>
+		<script type="text/javascript" language="javascript">
+			set_sbox_styles();
+		</script>
+
+		<!-- /Search Box End -->
+	</div>
+	<!-- Navigation Menu -->
+<div class="h2">
+	<ul>
+		<li id="mn-itm0" class="main_li"><a href="https://web.archive.org/web/20100106162323/http://www.icq.com/" id="link_mn-itm0">Главная</a></li>
+		<li id="mn-itm1" class="main_li" onmouseout="mainMenuOff(&#39;mn-itm1&#39;);" onmouseover="mainMenuOn(&#39;mn-itm1&#39;);"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/" id="link_mn-itm1">Аватарки</a>
+			<ul id="ul_sub_menu1" class="ul_sub_menu">
+				<li class="li_sb_mn_sp">&nbsp;</li>
+				<li class="li_sb_mn" id="mn-itm1-1"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>Main</a></li>
+				<li class="li_sb_mn" id="mn-itm1-2"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/icq/" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>ICQ 6.5</a></li>
+				<li class="li_sb_mn" id="mn-itm1-3"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/toolbar/" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>ICQ Toolbar</a> </li>
+				<li class="li_sb_mn" id="mn-itm1-4"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/icq2go/" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>ICQ2Go!</a> </li>
+				<li class="li_sb_mn" id="mn-itm1-5"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/wireless/" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>ICQ Mobile</a> </li>
+				<li class="li_sb_mn" id="mn-itm1-6"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/mac/" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>ICQ for Mac</a> </li>
+				<li class="sb-end">
+					<div class="sb-end-1"><div class="sb-end-ln"></div></div>
+					<div class="sb-end-2"><img src="./ICQ.com - community, people search and messaging service!_files/lower_part2.gif" width="16" height="16" alt=""></div>
+				</li>
+			</ul>
+		</li>
+		<li onmouseover="mainMenuOn(&#39;mn-itm8&#39;);" onmouseout="mainMenuOff(&#39;mn-itm8&#39;);" class="main_li" id="mn-itm8"><a id="link_mn-itm8" href="https://web.archive.org/web/20100106162323/http://gallery.icq.com/">Сообщества</a></li>
+		<li id="mn-itm2" class="main_li" onmouseout="mainMenuOff(&#39;mn-itm2&#39;);" onmouseover="mainMenuOn(&#39;mn-itm2&#39;);">
+			<ul id="ul_sub_menu2" class="ul_sub_menu">
+				<li class="li_sb_mn_sp">&nbsp;</li>
+				<li class="li_sb_mn" id="mn-itm2-1"><a href="https://web.archive.org/web/20100106162323/http://people.icq.com/" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>People Search</a> </li>
+				<li class="li_sb_mn" id="mn-itm2-2"><a href="https://web.archive.org/web/20100106162323/http://people.icq.com/?dating=1" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>Dating</a> </li>
+				<li class="sb-end">
+					<div class="sb-end-1"><div class="sb-end-ln">&nbsp;</div></div>
+					<div class="sb-end-2"><img src="./ICQ.com - community, people search and messaging service!_files/lower_part2.gif" width="16" height="16" alt=""></div>
+				</li>
+			</ul>
+		</li>
+		<li id="mn-itm3" class="main_li" onmouseout="mainMenuOff(&#39;mn-itm3&#39;);" onmouseover="mainMenuOn(&#39;mn-itm3&#39;);"><a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/" id="link_mn-itm3">Блог</a></li>
+		<li id="mn-itm4" class="main_li" onmouseout="mainMenuOff(&#39;mn-itm4&#39;);" onmouseover="mainMenuOn(&#39;mn-itm4&#39;);"></li>
+		<li id="mn-itm7" class="main_li" onmouseout="mainMenuOff(&#39;mn-itm7&#39;);" onmouseover="mainMenuOn(&#39;mn-itm7&#39;);"><a href="https://web.archive.org/web/20100106162323/http://chat.icq.com/" id="link_mn-itm7">Чат</a></li>
+		<li id="mn-itm5" class="main_li" onmouseout="mainMenuOff(&#39;mn-itm5&#39;);" onmouseover="mainMenuOn(&#39;mn-itm5&#39;);">
+			<ul id="ul_sub_menu5" class="ul_sub_menu">
+				<li class="li_sb_mn_sp">&nbsp;</li>
+				<li class="li_sb_mn" id="mn-itm5-1"> <a href="https://web.archive.org/web/20100106162323/http://greetings.icq.com/" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>Greetings</a> </li>
+				<li class="li_sb_mn" id="mn-itm5-2"> <a href="https://web.archive.org/web/20100106162323/http://games.icq.com/?RefiD=mainnav" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>Games</a> </li>
+				<li class="li_sb_mn" id="mn-itm5-3">  <a href="https://web.archive.org/web/20100106162323/http://www.icq.com/fight/" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>ICQ Fight</a> </li>
+				<li class="sb-end">
+					<div class="sb-end-1"><div class="sb-end-ln">&nbsp;</div></div>
+					<div class="sb-end-2"><img src="./ICQ.com - community, people search and messaging service!_files/lower_part2.gif" width="16" height="16" alt=""></div>
+				</li>
+			</ul>
+		</li>
+		<li id="mn-itm6" class="main_li" onmouseout="mainMenuOff(&#39;mn-itm6&#39;);" onmouseover="mainMenuOn(&#39;mn-itm6&#39;);"><a href="https://web.archive.org/web/20100106162323/http://www.icq.com/help" id="link_mn-itm6">Справка</a>
+			<ul id="ul_sub_menu6" class="ul_sub_menu">
+				<li class="li_sb_mn_sp">&nbsp;</li>
+				<li class="li_sb_mn" id="mn-itm6-1"><a href="https://web.archive.org/web/20100106162323/http://www.icq.com/help/" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>Help</a> </li>
+				<li class="li_sb_mn" id="mn-itm6-2"><a href="https://web.archive.org/web/20100106162323/https://www.icq.com/password/" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>Retrieve Password</a> </li>
+				<li class="li_sb_mn" id="mn-itm6-3"><a href="https://web.archive.org/web/20100106162323/https://www.icq.com/register/email_attach.php" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>Attach e-mail</a> </li>
+				<li class="li_sb_mn" id="mn-itm6-4"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/icq/feedback.html" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>Post Feedback</a> </li>
+				<li class="li_sb_mn" id="mn-itm6-5"><a href="https://web.archive.org/web/20100106162323/http://www.icq.com/forums/index.php?act=view_forum&amp;group_id=10084" class="sb-lnk"><span class="h2-arr-img-d"><img src="./ICQ.com - community, people search and messaging service!_files/arrow.gif" width="13" height="11" border="0" alt="" class="h2-arr-img"></span>Technical Forum</a> </li>
+				<li class="sb-end" id="mn-itm_end-6">
+					<div class="sb-end-1" id="mn-itm_end-1-6"><div class="sb-end-ln">&nbsp;</div></div>
+					<div class="sb-end-2" id="mn-itm_end-2-6"><img src="./ICQ.com - community, people search and messaging service!_files/lower_part2.gif" width="16" height="16" alt=""></div>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div><!-- End Navigation Menu -->
+</div>
+<!-- End Header --><!-- Main body -->
+<div class="d-main">
+	<div class="d">
+		<div class="d-top">
+			<div class="d-top-1">
+		<div class="dl_def0-1">&nbsp;</div>
+		<div class="dl_def" id="dl-m">
+			<div class="dl_def0">
+				<div class="dl_def0-2" id="dl-btn">
+					<div class="dl_def1-1"><img width="191" height="114" border="0" alt="Download ICQ 6.5" title="Download ICQ 6.5" src="./ICQ.com - community, people search and messaging service!_files/поикс.png"></div>
+				</div>
+			</div>
+			<div class="dl_def1">
+				<div class="dl_def1-2-0" id="dl-pr">
+					<script type="text/javascript" language="JavaScript">
+					if (gl_cc=="7"){
+						document.write('<div class="dl_def1-2-lite"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/icqlite/?icid=lite_hp_dl"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_icqLite.gif" border="0" width="170" height="28" title="To ICQ Lite" alt="To ICQ Lite"></a></div>');
+					}
+					</script>
+					<div id="icq_togo" class="dl_def1-2-1"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/icq2go/?icid=abhp_2g_left"><img width="170" height="28" border="0" alt="To ICQ2Go" title="To ICQ2Go" src="./ICQ.com - community, people search and messaging service!_files/drfdsfd.png"></a></div>
+					<script type="text/javascript" language="JavaScript">
+					if(gl_cc=="7"){
+						document.getElementById("icq_togo").className="dl_def1-2-1-lite";
+					}
+					if(gl_cc=="49"){
+						var go="2go-ger"; var replace="replace_pic";
+						document.getElementById("icq_togo").innerHTML='<img id="replace_pic" src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/ger_2go_open.gif" border="0" width="191" height="39" title="Zu ICQ2Go!" alt="Zu ICQ2Go!" onclick="show_box(true,go,replace)">';
+						document.getElementById("icq_togo").className="dl_def1-2-1-ger";
+					}
+					</script>
+					<!--ICQ2Go Germany Box-->
+					<div id="2go-ger" class="ger-2go">
+						<div class="dl_def1-2-2-sp"><a target="_blank" href="https://web.archive.org/web/20100106162323/http://www.prosieben.de/club_community/community/icqspecial/icqweb/"><img width="191" height="32" border="0" alt="Deutsche Version von ICQ2Go! und ProSieben" title="Deutsche Version von ICQ2Go! und ProSieben" src="./ICQ.com - community, people search and messaging service!_files/ger_2go_pro7.gif"></a></div>
+						<div class="dl_def1-2-2-sp"><a target="_blank" href="https://web.archive.org/web/20100106162323/http://www.n24.de/ratgeberservice/n24webim/n24webimclient.html"><img width="191" height="32" border="0" alt="Deutsche Version von ICQ 6.5 und N24" title="Deutsche Version von ICQ 6.5 und N24" src="./ICQ.com - community, people search and messaging service!_files/ger_2go_n24.gif"></a></div>
+						<div class="dl_def1-2-2-sp"><a href="https://web.archive.org/web/20100106162323/http://www.icq.com/download/icq2go/2go_ger.html"><img width="191" height="32" border="0" alt="Deutsche Version von ICQ2Go!" title="Deutsche Version von ICQ2Go!" src="./ICQ.com - community, people search and messaging service!_files/ger_2go_st.gif"></a></div>
+					</div>
+					<!--End ICQ2Go Germany Box-->
+					<div id="ger-bar" class="dl_def1-2-2"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/toolbar/?icid=abhp_tb_left"><img width="170" height="28" border="0" alt="To ICQ Toolbar" title="To ICQ Toolbar" src="./ICQ.com - community, people search and messaging service!_files/vkont.png"></a></div>
+					<script type="text/javascript" language="JavaScript">
+					if(gl_cc=="49"){
+						document.getElementById("ger-bar").innerHTML='<a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/toolbar/?icid=abhp_tb_left"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/toolbar_mid_ger.gif" border="0" width="191" height="32" title="Zu ICQ Toolbar" alt="Zu ICQ Toolbar"></a>';
+						document.getElementById("ger-bar").className="dl_def1-2-1-ger";
+					}
+					</script>
+					<div id="ger-mail" class="dl_def1-2-3"><a href="https://web.archive.org/web/20100106162323/http://www.icqmail.com/?icid=abhp_tb_left"><img width="170" height="28" border="0" alt="To ICQ Mail" title="To ICQ Mail" src="./ICQ.com - community, people search and messaging service!_files/почта.png"></a></div>
+					<script type="text/javascript" language="JavaScript">
+					if(gl_cc=="49"){
+						document.getElementById("ger-mail").innerHTML='<a href="https://web.archive.org/web/20100106162323/http://www.icqmail.com/?icid=abhp_tb_left"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/mail_mid_ger_2.gif" border="0" width="191" height="32" title="Zu ICQmail" alt="Zu ICQmail"></a>';
+						document.getElementById("ger-mail").className="dl_def1-2-1-ger";
+					}
+					</script>
+				</div>
+			</div>
+		<div><img width="222" height="67" border="0" class="left_bottom" alt="" src="./ICQ.com - community, people search and messaging service!_files/left_download_bottom_6.gif"></div>
+	</div>
+	<script type="text/javascript">
+	var dl_cc = 1;
+	var img = "icq6";
+	var link1 = "download.icq.com/?icid=abhp_65_left";
+	var alt1 = "Download ICQ 6.5";
+	var link_tool_mobile = "https://web.archive.org/web/20100106162323/http://download.icq.com/download/toolbar/";
+	var alt_tool_mobile = "TO ICQ Toolbar";
+	var img_tool_mobile = "toolbar";
+	var link_icq_club = "https://web.archive.org/web/20100106162323/http://www.icq.mnogo.ru/index.html";
+	var alt_icq_club = "Вступай в Клуб ICQ-Много.ру";
+	var img_icq_club = "icq_club";
+	var alt_icq_clubcard = "Zu ICQ Club";
+	var link_icq_clubcard = "https://web.archive.org/web/20100106162323/http://icqclub.icq.de";
+	var img_icq_clubcard = "clubcard_new";
+	switch(gl_cc) {
+		case "7":	img = "russian"; link2 = "icq.rambler.ru/"; alt2="ICQ 6.5 Rambler in Russian"; break; //Russia
+		case "90":	img = "turkish"; link2 = "icq.mynet.com/"; alt2="ICQ 6.5 MyNet in Turkish"; break; //Turkey
+		case "43":	img = "austria"; link2 = "www.puls4.com/icq/download/"; alt2="Deutsche Version von ICQ 6.5 und puls4.com"; break; //Austria
+		case "42":	img = "czech"; link2 = "icq.centrum.cz/o-icq/static/clanky/o-icq-65/"; alt2="ICQ 6.5 Centrum in Czech";	 link_tool_mobile = "https://web.archive.org/web/20100106162323/http://pr.atwola.com/promoclk/100024888x1159153105x1080105110/aol?redir="+escape('https://web.archive.org/web/20100106162323/http://www.cz.o2.com/icq');  alt_tool_mobile = "To ICQ Mobile"; img_tool_mobile = "mobile_novy"; break; //Czech
+		default: dl_cc = 0; break;
+	}
+	var dl_html = "";
+	if(location.host.match(/\.icq\.de/)) gl_cc = "49";
+	switch(gl_cc){
+		case "49":
+			document.getElementById("dl-m").className = "dl_ger1";
+			dl_html += '<div class="dl_ger1-1-sp"><a href="https://web.archive.org/web/20100106162323/http://www.prosieben.de/club_community/community/icqspecial/download/" target="_blank"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/germany_65.gif" alt="Deutsche Version von ICQ 6.5 und ProSieben" title="Deutsche Version von ICQ 6.5 und ProSieben" border="0" width="191" height="78" alt=""></a></div>';
+			dl_html += '<div class="dl_ger1-1-1-sp"><a href="https://web.archive.org/web/20100106162323/http://www.prosieben.de/club_community/community/icqspecial/download/" target="_blank"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/ger_65_pro7.gif"  title="Deutsche Version von ICQ 6.5 und ProSieben" alt="Deutsche Version von ICQ 6.5 und ProSieben" border="0" width="191" height="32" alt=""></a></div>';
+			/*dl_html += '<div class="dl_ger1-1-1-sp"><a href="https://web.archive.org/web/20100106162323/http://www.prosieben.de/club_community/community/icqspecial/topmodel/" target="_blank"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/ger_model.gif"  title="Deutsche Version von ICQ 6.5 und ProSieben Top Model" alt="Deutsche Version von ICQ 6.5 und ProSieben Top Model" border="0" width="191" height="32" alt=""></a></div>';*/
+			dl_html += '<div class="dl_ger1-1-1-sp"><a href="https://web.archive.org/web/20100106162323/http://www.sat1.de/tvprogramm_community/icq/" target="_blank"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/ger_65_sat1.gif"  title="Deutsche Version von ICQ 6.5 und Sat1" alt="Deutsche Version von ICQ 6.5 und Sat1" border="0" width="191" height="32" alt=""></a></div>';
+			dl_html += '<div class="dl_ger1-1-2-sp"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/?icid=abhp_65_left"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/ger_65_st.gif" title="Deutsche Version von ICQ 6.5" alt="Deutsche Version von ICQ 6.5" border="0" width="191" height="39" alt=""></a></div>';
+			document.getElementById("dl-btn").innerHTML = dl_html;
+			document.getElementById("dl-m").className = "dl_ger1";
+			break;
+		case "86":
+			document.getElementById("dl-m").className = "dl_ger";
+			dl_html += '<div class="dl_ger1-1"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/?icid=abhp_65_left"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_up_china.gif" alt="Download ICQ 6.5 in Chinese" title="Download ICQ 6.5 in Chinese" border="0" width="191" height="112" alt=""></a></div>';
+			document.getElementById("dl-btn").innerHTML = dl_html;
+			break;
+		case "972":
+			document.getElementById("dl-m").className = "dl_ger";
+			dl_html += '<div class="dl_ger1-1"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/?icid=abhp_65_left"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_Israel_up.gif" alt="ICQ 6.5 הורידו את" title="ICQ 6.5 הורידו את" border="0" width="191" height="114" alt=""></a></div>';
+			dl_html += '<div class="dl_1-1-1"><a href="https://web.archive.org/web/20100106162323/http://icq.walla.co.il/" target="_blank"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_Israel_down.gif" title="בעברית ICQ !לגרסת וואלה" alt="בעברית ICQ !לגרסת וואלה" border="0" width="191" height="41" alt=""></a></div>';
+			document.getElementById("dl-btn").innerHTML = dl_html;
+			break;
+		case "375":
+			document.getElementById("dl-m").className = "dl_ger";
+			dl_html += '<div class="dl-bul"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/?icid=abhp_65_left"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_up_russian.gif" alt="Download ICQ 6.5 in Russian" title="Download ICQ 6.5 in Russian" border="0" width="191" height="114" alt=""></a></div>';
+			dl_html += '<div class="dl_1-1-1"><a href="https://web.archive.org/web/20100106162323/http://icq.bigmir.net/bl" target="_blank"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_down_belarus.gif" title="ICQ 6.5 Bigmir in Belarus" alt="ICQ 6.5 Bigmir in Belarus" border="0" width="191" height="39" alt=""></a></div>';
+			document.getElementById("dl-btn").innerHTML = dl_html;
+			break;
+		case "380":
+			document.getElementById("dl-m").className = "dl_ger";
+			dl_html += '<div class="dl-bul"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/?icid=abhp_65_left"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_up_russian.gif" alt="ICQ 6.5 Bigmir in Ukranian" title="ICQ 6.5 Bigmir in Ukranian" border="0" width="191" height="114" alt=""></a></div>';
+			dl_html += '<div class="dl_1-1-1"><a href="https://web.archive.org/web/20100106162323/http://icq.bigmir.net/" target="_blank"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_down_belarus.gif" title="ICQ 6.5 Bigmir in Ukranian" alt="ICQ 6.5 Bigmir in Ukranian" border="0" width="191" height="39" alt=""></a></div>';
+			document.getElementById("dl-btn").innerHTML = dl_html;
+			break;
+		case "4201":
+			document.getElementById("dl-m").className = "dl_ger";
+			dl_html += '<div class="dl-sk"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/?icid=abhp_65_left"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/Centrum_header.gif" alt="Stiahnut ICQ 6.5 " title="Stiahnut ICQ 6.5 " border="0" width="191" height="79"></a></div>';
+			dl_html += '<div class="dl_1-1-1"><a href="https://web.archive.org/web/20100106162323/http://icq.centrum.sk" target="_blank"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/Centrum_btt.gif" title="ICQ6.5 Centrum in Slovak" alt="ICQ6.5 Centrum in Slovak" border="0" width="191" height="39"></a></div>';
+			document.getElementById("dl-btn").innerHTML = dl_html;
+			break;
+		case "359":
+			document.getElementById("dl-m").className = "dl_ger";
+			dl_html += '<div class="dl-bul"><a href="https://web.archive.org/web/20100106162323/http://download.icq.com/download/?icid=abhp_65_left"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_Bulgaria_up.gif" alt="Изтеглям ICQ 6.5" title="Изтеглям ICQ 6.5" border="0" width="191" height="112"></a></div>';
+			dl_html += '<div class="dl_1-1-1"><a href="https://web.archive.org/web/20100106162323/http://icq.abv.bg/" target="_blank"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_down_bulgaria.gif" title="Изтеглям ICQ 6.5" alt="Изтеглям ICQ 6.5" border="0" width="191" height="39"></a></div>';
+			document.getElementById("dl-btn").innerHTML = dl_html;
+			break;
+	}
+	if(dl_cc != "0") {
+		document.getElementById("dl-m").className = "dl";
+		dl_html += '<div class="dl1-1"><a href="http://'+link1+'"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_up_'+img+'.gif" border="0" width="191" height="114" title="'+alt1+'" alt="'+alt1+'"></a></div>';
+		dl_html += '<div class="dl1-1-1"><a href="http://'+link2+'" target="_blank"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_down_'+img+'.gif" border="0" width="191" height="39" title="'+alt2+'" alt="'+alt2+'"></a></div>';
+		if(gl_cc=="7")
+			dl_html += '<div class="dl_1-1-1"><a target="_blank" href="https://web.archive.org/web/20100106162323/http://icq.yandex.ru/?icq"><img height="39" width="191" border="0" alt="ICQ 6.5 Yandex in Russia" title="ICQ 6.5 Yandex in Russia" src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_Russia_mid.gif"/></a></div>';
+		document.getElementById("dl-btn").innerHTML = dl_html;
+		if(gl_cc == "42") {
+			document.getElementById("dl-m").className = "dl_cz";
+			document.getElementById("dl-pr").innerHTML += '<div class="dl_def1-2-2"><a href="'+link_tool_mobile+'" title="'+alt_tool_mobile+'" target="_blank"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_'+img_tool_mobile+'.gif" border="0" width="170" height="28" alt="'+alt_tool_mobile+'"></a></div>';
+		}
+		if(gl_cc == "7") {
+			document.getElementById("dl-m").className = "dl_ru";
+			document.getElementById("dl-pr").innerHTML += '<div class="dl_def1-2-2"><a href="'+link_icq_club+'" title="'+alt_icq_club+'" target="_blank"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/homepage/img/dl_'+img_icq_club+'.gif" border="0" width="170" height="28" alt="'+alt_icq_club+'"></a></div>';
+		}
+	}
+	</script>
+	</div>
+			<div class="d-top-2" id="browser">
+	<script language="JavaScript" type="text/javascript">
+	var session_cookie 	= readCookie('karma_session');
+	var karma_ud 		= readCookie('karma_ud');
+	var loginbox = '<div class="d07">';
+	if(session_cookie || karma_ud) {
+		loginbox += '<iframe frameborder="0" width="163" height="72" scrolling="no" src="https://web.archive.org/web/20100106162323/http://www.icq.com/homepage/loginbox_hp.php"></iframe>';
+	} else {
+		loginbox += '<div class="d07-1">&nbsp;</div>';
+		loginbox += '<div class="d07-2">';
+		loginbox += '<div class="d07-2-1">&nbsp;</div>';
+		loginbox += '<div class="d07-2-2"><a target="_top" href="https://web.archive.org/web/20100106162323/https://www.icq.com/karma/login_page.php"><img alt="Login" src="https://web.archive.org/web/20100106162323/http://c.icq.com/img/log_in.gif" width="133" height="37" border="0"></a></div>';
+		loginbox += '<div class="d07-2-3"><a target="_top" class="d07-lnk" href="/register/" >Not an ICQ User?</a></div>';
+		loginbox += '</div>';
+	}
+	loginbox += '</div>';
+	document.write(loginbox);
+</script></div>
+			
+			<div class="d-top-4">
+			<div id="elem" class="d-top-4" style="display: none;">
+				<script type="text/javascript">
+				if(gl_cc != "972"){
+					document.getElementById("elem").style.display = "none";
+				}
+				</script>
+				<a target="_blank" title="מידע, ייעוץ ותמיכה לנוער וצעירים" href="https://web.archive.org/web/20100106162323/http://www.yelem.org.il/yelem/"><img border="0" alt="מידע, ייעוץ ותמיכה לנוער וצעירים" src="./ICQ.com - community, people search and messaging service!_files/elem.gif"></a>
+			</div></div>
+		</div>
+		<div class="d1">
+			<div class="d1-1" id="top_row">
+				<div class="d1-1-1">
+					<div class="d1-1-1-1">	<!-- my test start here -->
+<div class="gr" id="gr_div">
+	<div class="gr0">&nbsp;</div>
+	<div class="seperator">
+		<h4 class="title"><a href="https://web.archive.org/web/20100106162323/http://www.icq.com/download/skins/?icid=hp_skins_ww" title="Download ICQ Skins"><span id="icq_grp">Аатарки для соцсетей</span></a></h4>
+		<div class="picture">
+			<a href="https://web.archive.org/web/20100106162323/http://www.icq.com/download/skins/?icid=hp_skins_ww" title="Download ICQ Skins">
+			<img width="158" height="98" alt="аватарки" src="./ICQ.com - community, people search and messaging service!_files/Aim_Buddy_Icons_screenshot.png"></a>
+		</div>
+		<p class="p_title"></p>
+		<p class="p_content"><a href="https://web.archive.org/web/20100106162323/http://www.icq.com/download/skins/?icid=hp_skins_ww" title="Аватарки для соцсетей">Аватарки на любой вкус</a></p>
+	</div>
+</div>
+<div class="main_gr" id="group_more">
+	<span class="link_more"><a title="Download ICQ Skins" href="https://web.archive.org/web/20100106162323/http://www.icq.com/download/skins/?icid=hp_skins_ww"><span id="mo_grp">Подробнее</span>&nbsp;»</a></span>
+</div>
+<!-- end of group box -->
+		<script language="JavaScript" type="text/javascript">
+		get_rnd_gr();
+		</script></div>
+					<div class="d1-1-1-2"><!-- my test start here -->
+<div class="gr" id="ch_div_js">
+	<div id="chat_clr">&nbsp;</div>
+	<div class="seperator">
+		<span id="ch_div">
+			<h4 class="title"><a href="https://web.archive.org/web/20100106162323/http://chat.icq.com/?icid=hp_chat_ttl/" title="Go to ICQ Chat Rooms"><span id="icq_cha">Наш чат</span></a></h4>
+		</span>
+		<div class="picture">
+			<a href="https://web.archive.org/web/20100106162323/http://chat.icq.com/icqchat/chatroom.php?c_id=1197&amp;icid=hp_chat_1197/" title="Go to &quot;Chat World&quot; Chat Room">
+			<img width="158" height="98" alt="Go to &quot;Chat World&quot; Chat room" src="./ICQ.com - community, people search and messaging service!_files/307.jpg"></a>
+		</div>
+		<p class="p_title"></p>
+		<p class="p_content"><a title="Go to &quot;Chat World&quot; Chat Room" group'="" href="https://web.archive.org/web/20100106162323/http://chat.icq.com/icqchat/chatroom.php?c_id=1197&amp;icid=hp_chat_1197">Здесь мы общаемся и помогаем всем</a></p>
+	</div>
+</div>
+<div class="main_gr">
+	<span class="link_more"><a title="To ICQ Chat rooms" href="https://web.archive.org/web/20100106162323/http://chat.icq.com/icqchat/?icid=hp_chat_more/"><span id="mo_ch">Подробнее</span>&nbsp;»</a></span>
+</div>
+<!-- end of group box -->
+		<script language="JavaScript" type="text/javascript">
+		get_rnd_ch();
+		</script></div>
+				</div>
+				<div class="d1-1-2"><div class="z" id="S_z">
+		<div class="zsp-h-14">&nbsp;</div>
+		<div class="z1">
+			<h3><span id="r_hot_d_z">Наше сообщество</span></h3>
+
+			<span class="z1-2" id="z1-2">
+				<a href="https://web.archive.org/web/20100106162323/http://chat.icq.com/icqchat/chatroom.php?c_id=19&amp;icid=hp_hot_1" title="Chat around the world!"><img src="./ICQ.com - community, people search and messaging service!_files/images" width="323" height="125" alt="Chat around the world!"></a>
+			</span>
+			<p class="z1-3" id="z1-3"><a href="https://web.archive.org/web/20100106162323/http://chat.icq.com/icqchat/chatroom.php?c_id=19&amp;icid=hp_hot_1">Здесь все про наш сайт и сообщество</a></p>
+			<p class="z1-4" id="z1-4"><a href="https://web.archive.org/web/20100106162323/http://chat.icq.com/icqchat/chatroom.php?c_id=19&amp;icid=hp_hot_1">Загляни к нам</a></p>
+		</div>
+		<div class="z2" id="z2">
+			<a href="https://web.archive.org/web/20100106162323/http://chat.icq.com/icqchat/chatroom.php?c_id=19&amp;icid=hp_hot_1">Открыть сообщество</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		</div>
+		<div class="z3">&nbsp;</div>
+	</div>
+	<script type="text/javascript">
+	if(gl_cc=="7"){
+		document.getElementById("z1-2").innerHTML ='<a href="https://web.archive.org/web/20100106162323/http://www.icq.com/download/ru/index.html?icid=ru_hp_hot" title="Новые версии ICQ"><img src="https://web.archive.org/web/20100106162323/http://c.icq.com/welcome2/img/box1/lite_hp.jpg" width="323" height="125" alt="Новые версии ICQ"></a>';
+		document.getElementById("r_hot_d_z").innerHTML ='Hot on ICQ';
+		document.getElementById("z1-3").innerHTML ='<a href="https://web.archive.org/web/20100106162323/http://www.icq.com/download/ru/index.html?icid=ru_hp_hot">Новые версии ICQ</a>';
+		document.getElementById("z1-4").innerHTML ='<a href="https://web.archive.org/web/20100106162323/http://www.icq.com/download/ru/index.html?icid=ru_hp_hot">ICQ версия  5.1 больше не поддерживается Мы предлагаем вам установить одну из новых версий</a>';
+		document.getElementById("z2").innerHTML ='<a href="https://web.archive.org/web/20100106162323/http://www.icq.com/download/ru/index.html?icid=ru_hp_hot">Подробнее&nbsp;&raquo;</a><span>&nbsp;&nbsp;&nbsp;</span><a href="https://web.archive.org/web/20100106162323/http://groups.icq.com/groups/index.php?cat_id=217">ICQ сообщества&nbsp;&raquo;</a><span>&nbsp;&nbsp;&nbsp;</span><a href="https://web.archive.org/web/20100106162323/http://chat.icq.com/icqchat/chatroom.php?c_id=68">чат по-русски&nbsp;&raquo;</a><span>&nbsp;&nbsp;&nbsp;</span>';
+	}
+	</script></div>
+			</div><script type="text/javascript">if (gl_cc == "7") ru_promotion();</script><div class="d1-2">
+				<div class="d1-2-1">
+					
+					<div class="d1-2-1-2"><div class="gm">
+	<div class="gm1">
+		<div class="gm1-1">&nbsp;</div>
+		<div class="gmsp-h-12">&nbsp;</div>
+		<a href="https://web.archive.org/web/20100106162323/http://games.icq.com/" title="To More Free Online Games"><span id="icq_gms">Игры на сайте</span></a>
+		<div id="S_gm">
+			<p><a href="https://web.archive.org/web/20100106162323/http://games.icq.com/multiGame.htm?code=110300993&amp;RefId=mainnav&amp;lc=en" title="Go to &quot;Pool&quot; Game">Игры и приложения</a></p>
+			<div class="gm1-2">
+				<a href="https://web.archive.org/web/20100106162323/http://games.icq.com/multiGame.htm?code=110300993&amp;RefId=mainnav&amp;lc=en"><img src="./ICQ.com - community, people search and messaging service!_files/1200381835_0.jpg" width="168" height="118" alt="Go to &quot;Pools&quot; Game" title="Go to &quot;Pool&quot; Game"></a>
+			</div>
+		</div>
+	</div>
+	<div class="gmsp1-h-12">&nbsp;</div>
+	<div class="gm2">
+		<p><a href="https://web.archive.org/web/20100106162323/http://games.icq.com/" title="More Free Online Games"><span id="mo_gms">Подробнее</span>&nbsp;»</a></p>
+	</div>
+	<div class="gm3">&nbsp;</div>
+</div></div>
+				</div>
+				
+			</div>
+
+			<div class="d1-2">
+				<div class="d1-2-1-b"><div class="rc-b">
+<div class="rc-b0">&nbsp;</div>
+<div class="rc-b-sp-3">&nbsp;</div>
+<h3 class="rc-b1"><span id="r_blg">Блог</span></h3>
+<div class="rc-b2">
+	<div class="rc-b2-1"><div>
+		<div class="rc-b2-1-p">
+			<div class="rc-b2-1-p1">
+				<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/people/about_me.php?uin=10826576&amp;icid=hp_ppl_rec_blog" title="To spherepet®&#39;s Page">
+				<img src="./ICQ.com - community, people search and messaging service!_files/32x32.png" width="46" height="57" border="0" alt="To spherepet®&#39;s Page"></a>
+			</div>
+			<div class="rc-b2-1-p2">
+				<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/?icid=hp_rec_blog" class="rc-more" title="To ICQ Blogs"><b>Новая вкладка</b></a> &gt;
+				<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/blogs/blog/10826576&amp;icid=hp_rec_blog" title="To spherepet®&#39;s Blog" class="rc-more"><b>28 июня 2023</b></a><br>
+				<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/people/about_me.php?uin=10826576&amp;icid=hp_rec_blog" title="To spherepet®&#39;s Page">By</a>
+				<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/people/about_me.php?uin=10826576&amp;icid=hp_rec_blog" title="To spherepet®&#39;s Page"><b>@neomaterial</b></a><br>
+				<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/blogs/blog/10826576&amp;icid=hp_rec_blog" title="To spherepet®&#39;s Blog">На сайте с проектами теперь есть вкладка видео!</a>
+				<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/blogs/blog/10826576&amp;icid=hp_rec_blog" title="To spherepet®&#39;s Blog" class="rc-more"><span id="mo">Подробнее</span>»</a>
+			</div>
+		</div>
+		<div class="rc-b2-1-p">
+			<div class="rc-b2-1-p1">
+				<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/people/about_me.php?uin=490630642&amp;icid=hp_ppl_rec_blog/" title="To Toni&#39;s Page">
+				<img src="./ICQ.com - community, people search and messaging service!_files/0aed2c2987b59ebb30db214d5c448a39.ico" width="46" height="57" border="0" alt="To Toni&#39;s Page"></a>
+			</div>
+			<div class="rc-b2-1-p2">
+				<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/?icid=hp_rec_blog" class="rc-more" title="To ICQ Blogs"><b>Сайт готов!</b></a><a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/blogs/blog/490630642&amp;icid=hp_rec_blog" title="To Toni&#39;s Blog" class="rc-more"></a><br>
+				<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/people/about_me.php?uin=490630642&amp;icid=hp_rec_blog" title="To Toni&#39;s Page">By</a>
+				<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/people/about_me.php?uin=490630642&amp;icid=hp_rec_blog" title="To Toni&#39;s Page"><b>@blackot</b></a><br>
+				<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/blogs/blog/490630642&amp;icid=hp_rec_blog" title="To Toni&#39;s Page">Сайт готов к использованию. Разработка продолжается.</a>
+				<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/blogs/blog/490630642&amp;icid=hp_rec_blog" title="To Toni&#39;s Page" class="rc-more"><u><span id="mo1">Подробнее</span>»</u></a>
+			</div>
+		</div></div>
+		<div class="rc-b-sp-6">&nbsp;</div>
+		<div class="rc-b2-1-lnk">
+			<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/?icid=hp_rec_blog_more" class="rc-b-lnk1" title="To ICQ Blogs"><span id="mo_blg">Подробнее</span>»</a>
+			<a href="https://web.archive.org/web/20100106162323/http://blogs.icq.com/blogs/blog/?icid=hp_rec_blog/" title="Start new Blog" class="rc-b-lnk2"></a>
+		</div>
+	</div>
+	<div class="rc-b2-2">
+		<div class="rc-b2-2-1">&nbsp;</div>
+		<div class="rc-b2-2-2">&nbsp;</div>
+	</div>
+</div>
+	</div>
+	</div>
+				<div class="d1-2-2"><div class="ppl1">	<div class="ppl1-1">&nbsp;</div>
+						<div class="ppl1-sp-h-12">&nbsp;</div>
+						<div class="ppl1-p1">
+							<div class="ppl1-1-1"><a href="https://web.archive.org/web/20100106162323/http://people.icq.com/?icid=hp_people_ttl/" title="Find new Friends">Проекты</a></div>
+							<div class="ppl1-1-2">
+								<div class="ppl1-1-2-1" id="ppl_div1"></div>
+								<div class="ppl1-1-2-2" id="ppl_div2"></div>
+							</div>
+							<div class="ppl1-pic1-3"><a href="https://web.archive.org/web/20100106162323/http://people.icq.com/" title="Find new Friends"><span id="mo_ic_usr">Подробнее</span>&nbsp;»</a></div>
+						</div>
+						<div class="ppl1-pic2">
+							<div class="ppl1-pic2-1">&nbsp;</div>
+							<div class="ppl1-pic2-2" id="ppl_div3"></div>
+							<div class="ppl1-pic2-3" id="ppl_div4"></div>
+						</div>
+						<div class="ppl1-pic3">
+							<div class="ppl1-pic3-1">&nbsp;</div>
+							<div class="ppl1-pic3-2" id="ppl_div5"></div>
+							<div class="ppl1-pic3-3" id="ppl_div6"></div>
+						</div>
+						<div class="ppl1-p4" id="ppl_div7"></div>
+						<div class="ppl1-pic5">&nbsp;</div><script language="JavaScript" type="text/javascript">get_rnd_ppl();</script></div></div>
+			</div>
+			<div class="d1-2">
+				<div class="d1-2-1-b">
+<div class="rc-g">
+	<div class="rc-g0">&nbsp;</div>
+	<div class="rc-g-sp-3">&nbsp;</div>
+	<div id="recent_group"> <!-- ELAD add for JS innerHTML -->
+		<h3 class="rc-g1"><span id="r_grp_post">Ознакомление</span></h3>
+		<div class="rc-g2">
+			<div class="rc-g2-1">
+				<div>
+				<div class="rc-g2-1-p">
+					<div class="rc-g2-1-p1">
+						<a href="https://web.archive.org/web/20100106162323/http://groups.icq.com/groups/index.php?act=view_topic&amp;group_id=1896&amp;topic_id=196349&amp;forum_page=1&amp;icid=hp_rec_group/" title="To Metal&#39;s group">
+						<img src="./ICQ.com - community, people search and messaging service!_files/music2.gif" width="66" height="50" border="0" alt="" title="To Metal&#39;s group"></a>
+					</div>
+					<div class="rc-g2-1-p2">
+						<a href="https://web.archive.org/web/20100106162323/http://groups.icq.com/groups/index.php?act=view_topic&amp;group_id=1896&amp;topic_id=196349&amp;forum_page=1&amp;icid=hp_rec_group/" title="To Metal&#39;s group"><u><b>Зачем этот сайт?</b></u></a><br>
+						<a href="https://web.archive.org/web/20100106162323/http://groups.icq.com/groups/index.php?act=view_topic&amp;group_id=1896&amp;topic_id=196349&amp;forum_page=1&amp;icid=hp_rec_group/" title="To Metal&#39;s group">Для более простого поиска или развлечения</a>
+						
+					</div>
+				</div>
+				<div class="rc-g2-1-p">
+					<div class="rc-g2-1-p1">
+						<a href="https://web.archive.org/web/20100106162323/http://groups.icq.com/groups/index.php?act=view_topic&amp;group_id=3194&amp;topic_id=188442&amp;forum_page=1&amp;icid=hp_rec_group/" title="To Group Hug&#39;s group">
+						<img src="./ICQ.com - community, people search and messaging service!_files/coping1.gif" width="66" height="50" border="0" alt="" title="To Group Hug&#39;s group"></a>
+					</div>
+					<div class="rc-g2-1-p2">
+						<a href="https://web.archive.org/web/20100106162323/http://groups.icq.com/groups/index.php?act=view_topic&amp;group_id=3194&amp;topic_id=188442&amp;forum_page=1&amp;icid=hp_rec_group/" title="To Group Hug&#39;s group"><u><b>На сайте имееются полноценные игры?</b></u></a><br>
+						<a href="https://web.archive.org/web/20100106162323/http://groups.icq.com/groups/index.php?act=view_topic&amp;group_id=3194&amp;topic_id=188442&amp;forum_page=1&amp;icid=hp_rec_group/" title="To Group Hug&#39;s group">нет, все игры и приложения на стадии бета-тестирования</a>
+						
+					</div>
+				</div>
+				<div class="rc-g2-1-p">
+					<div class="rc-g2-1-p1">
+						<a href="https://web.archive.org/web/20100106162323/http://groups.icq.com/groups/index.php?act=view_topic&amp;group_id=3202&amp;topic_id=138790&amp;forum_page=1&amp;icid=hp_rec_group/" title="To 40 Something&#39;s group">
+						<img src="./ICQ.com - community, people search and messaging service!_files/friends3.jpg" width="66" height="50" border="0" alt="" title="To 40 Something&#39;s group"></a>
+					</div>
+					<div class="rc-g2-1-p2">
+						<a href="https://web.archive.org/web/20100106162323/http://groups.icq.com/groups/index.php?act=view_topic&amp;group_id=3202&amp;topic_id=138790&amp;forum_page=1&amp;icid=hp_rec_group/" title="To 40 Something&#39;s group"><u><b>Что тут можно делать? </b></u></a><br>
+						<a href="https://web.archive.org/web/20100106162323/http://groups.icq.com/groups/index.php?act=view_topic&amp;group_id=3202&amp;topic_id=138790&amp;forum_page=1&amp;icid=hp_rec_group/" title="To 40 Something&#39;s group">Общаться, подбирать аватарки смотреть видео и слушать музыку!</a>
+						
+					</div>
+				</div>
+			</div></div>
+			<div class="rc-g2-2">
+				<div class="rc-g2-2-1">&nbsp;</div>
+				<div class="rc-g2-2-2">&nbsp;</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script language="JavaScript" type="text/javascript">
+					get_rnd_recent_group();
+					</script></div>
+				<div class="d1-2-2-b">
+					
+					
+				</div>
+			</div>
+			<div class="sp-14">&nbsp;</div>
+		</div>
+	</div>
+</div>
+<!-- End Main body --><!-- Footer -->
+		<div class="f">
+			<div class="f-lnk-d">
+				
+				<span class="f-end">Copyright ©2022-2023 N_M</span>
+			</div>
+		</div>
+		<!-- End Footer -->
+	<script language="JavaScript1.1" type="text/javascript">
+	if(show_banner)
+		include("https://web.archive.org/web/20100106162323/http://ar.atwola.com/file/adsEnd.js");
+	</script><script language="JavaScript"><!--
+					var s_account="aolwpicq";     /* report suites will be provided by Reporting team   */
+				//--></script>
+				<script language="JavaScript" src="file:///C:/Users/user/Downloads/neo_material/icq/ICQ.com%20-%20community,%20people%20search%20and%20messaging%20service!_files/omniunih.js.%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F"></script>
+				<script language="JavaScript"><!--
+				/* You may give each page an identifying name, server, and channel on
+				the next lines. */
+				s_265.pfxID="icq"
+				s_265.pageName=s_265.pfxID + " : " +"Homepage";
+				s_265.server=""
+				s_265.channel="icq.icq"
+				s_265.pageType=""
+				s_265.linkInternalFilters="javascript:,aol.com"
+				s_265.prop1=s_265.pfxID + " : " +  "Front Doors"
+				s_265.prop2=s_265.pfxID + " : " +  "Homepage"
+				s_265.prop12=location.href.match(/^[^\?|^#]*/);
+				/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+				var s_code=s_265.t();if(s_code)document.write(s_code)//--></script>
+				<!-- End SiteCatalyst code version: H.7. --></center>
+
+
+
+</body></html>
