@@ -1,0 +1,426 @@
+var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+// Browser Detection
+var detect = navigator.userAgent.toLowerCase();
+var gl_os,gl_browser,gl_version,gl_total,thestring;
+
+if (checkIt('konqueror'))
+{
+	gl_browser = "Konqueror";
+	gl_os = "Linux";
+}
+else if (checkIt('safari')) gl_browser = "Safari"
+else if (checkIt('omniweb')) gl_browser = "OmniWeb"
+else if (checkIt('opera')) gl_browser = "Opera"
+else if (checkIt('webtv')) gl_browser = "WebTV";
+else if (checkIt('icab')) gl_browser = "iCab"
+else if (checkIt('msie')) gl_browser = "Internet Explorer"
+else if (!checkIt('compatible'))
+{
+	gl_browser = "Netscape Navigator"
+	gl_version = detect.charAt(8);
+}
+else gl_browser = "An unknown browser";
+
+if (!gl_version) gl_version = detect.charAt(place + thestring.length);
+
+if (!gl_os)
+{
+	if (checkIt('linux')) gl_os = "Linux";
+	else if (checkIt('x11')) gl_os = "Unix";
+	else if (checkIt('mac')) gl_os = "Mac"
+	else if (checkIt('win')) gl_os = "Windows"
+	else os = "an unknown operating system";
+}
+
+function checkIt(string)
+{
+	place = detect.indexOf(string) + 1;
+	thestring = string;
+	return place;
+}
+// End Browser Detection.
+
+function win98_header(section_id)
+{
+	if(gl_browser == "Internet Explorer" && gl_version < 6)
+	{
+		document.getElementById("h6-ie5").style.display = "block";
+		document.getElementById("h6-ie5").style.backgroundColor = navbut_colors[section_id];
+	}
+	else
+	{
+		document.getElementById("h6").style.display = "block";
+	}
+}
+
+
+function ClearSearch() 
+{
+	if((document.Search.search_keyword.value == "Enter Keyword")  || (document.Search.search_keyword.value == "Search"))
+	{
+		document.Search.search_keyword.value = "";
+	}
+}
+
+function set_order(order, prod_id)
+{
+	var expireDate = new Date;
+	expireDate.setDate(expireDate.getDate()+1);
+	SetCookie(prod_id + "_order", order, expireDate,"/");
+	document.location.reload();
+}
+
+function set_language(lang, prod_id)
+{
+	var expireDate = new Date;
+	expireDate.setDate(expireDate.getDate()+1);
+	SetCookie(prod_id + "_lang", lang, expireDate);
+	document.location.reload();
+}
+
+// D3 Search
+
+//this function check if need to just change the range status or change the status and do the search  
+function searchChange(id)
+{
+	document.getElementById(id).checked = true;
+}
+
+
+function get_url(link_url, blank)
+{
+	if(blank)
+	{
+		var wref = window.open(link_url);
+	}
+	else
+	{
+		document.location.href = link_url;
+	}
+}
+
+function clear_recent(product_id)
+{
+	DeleteCookie('recent_' + product_id);
+	document.location.reload();
+}
+
+
+// ICQMail related --------------------------------------------------------------------
+	var gl_user_uin = 0;
+	var gl_user_sk = 0;
+	function icqmail_get_uin () 
+	{
+//		try {
+			var dat = GetCookie("karma_ud");
+
+			if ( !dat ) { return false; }
+			var dat = dat.split(',');
+			//alert(dat);
+			gl_user_uin = dat[0];
+			gl_user_sk = dat[1];
+
+			gl_user_uin = gl_user_uin.split('=');
+			gl_user_uin = gl_user_uin[1];
+
+			gl_user_sk = gl_user_sk.split('=');
+			gl_user_sk = gl_user_sk[1];
+
+//		 } catch(e) { }
+	}
+
+	function get_user_data ( user_uin , user_sk) 
+	{
+		html = '<iframe id="icqmail_inf" frameborder="0" width="1" height="1" style="border: 0px;background-color: #FFFFFF" src="/include/icqmail/mail_ifrm.php?uin='+ user_uin +'&sk='+ user_sk +'"></iframe>';
+		document.write(html);
+	}	
+
+/* Start Top Navigation menu */ 
+
+function mainMenuOn(ellementId)
+	 {
+		var curEllement = document.getElementById(ellementId);
+        curEllement.style.backgroundColor = '#75B85A';
+		document.getElementById(ellementId).style.overflow = "visible";
+	 }
+	 
+ function mainMenuOff(ellementId)
+	 {
+		var curEllement = document.getElementById(ellementId);
+		curEllement.style.backgroundColor = '#4CAA26';
+		document.getElementById(ellementId).style.overflow = "hidden";
+	 }
+
+	  
+ function checkUrlForMenu(currentMenuIetm)
+    {
+        document.getElementById(currentMenuIetm).style.backgroundColor='#44b4bc';
+        document.getElementById(currentMenuIetm).style.marginTop='-9px';
+        
+    }
+	
+		
+	function navButtonSelected(button)
+	{
+		try
+		{
+			var item = "menuItem"+button.toString();
+			if(button==4)
+			{
+				document.getElementById(item).style.backgroundColor='#A668CB';
+			}
+			else
+			{
+				document.getElementById(item).style.backgroundColor='#ABE276';
+				document.getElementById("link_"+item).style.color='#306A19';
+			}
+		    document.getElementById(item).style.marginTop='-10px';
+		}
+		catch(e){}
+	}
+/* End top navigation menu */	
+
+//Java script cookie lib
+
+function getCookieVal ( offset ) {
+  var endstr = document.cookie.indexOf (";", offset);
+  if ( endstr == -1 )
+    endstr = document.cookie.length;
+  return unescape(document.cookie.substring(offset, endstr));
+}
+
+function SetCookie ( name, value, expires, path, domain, secure ) {
+  if ( name.length == 0 ) return;
+
+  document.cookie = name + "=" + escape (value) +
+    ((expires) ? "; expires=" + expires.toGMTString() : "Never") +
+    ((path) ? "; path=" + path : "") +
+    ((domain) ? "; domain=" + domain : "") +
+    ((secure) ? "; secure" : "");
+}
+
+function GetCookie ( name ) {
+  if ( name.length == 0 ) return null;
+  var arg = name + "=";
+  var alen = arg.length;
+  var clen = document.cookie.length;
+  var i = 0;
+  while ( i < clen ) {
+    var j = i + alen;
+    if ( document.cookie.substring(i, j) == arg ) {
+      return getCookieVal (j);
+	}
+    i = document.cookie.indexOf(" ", i) + 1;
+    if ( i == 0 ) break;
+  }
+ 
+ 	 return null;
+}
+
+function DeleteCookie ( name,path,domain ) {
+  if (GetCookie(name)) {
+    document.cookie = name + "=" +
+      ((path) ? "; path=" + path : "") +
+      ((domain) ? "; domain=" + domain : "") +
+      "; expires=Thu, 01-Jan-70 00:00:01 GMT";
+  }
+}
+
+function FixCookieDate ( date ) {
+  var base = new Date(0);
+  var skew = base.getTime(); // dawn of (Unix) time - should be 0
+  if (skew > 0)  // Except on the Mac - ahead of its time
+    date.setTime (date.getTime() - skew);
+}
+
+/* end cookie lib */
+
+/* Query Lib */
+gl_query = this.location.href;
+var gl_inq = gl_query.indexOf('?');
+gl_query = gl_query.substring(gl_inq + 1);
+
+if (gl_inq > 0) {
+	gl_query_string = gl_query; 
+}
+
+var gl_temp_str = "&";
+var gl_query_len = gl_query.length, gl_temp_len = gl_temp_str.length;
+
+var i = gl_query.indexOf(gl_temp_str);
+
+while (i+gl_temp_len < gl_query_len) {
+	if (i > 0) {
+		split_query(gl_query.substring(0,i),"=");
+	} else {
+		split_query(gl_query,"=");
+	}
+	gl_query = gl_query.substring(i+gl_temp_len,gl_query_len);
+	var i = gl_query.indexOf(gl_temp_str);
+	if (i < 1) {
+		i = gl_query_len + 1; // end while
+	}
+}
+split_query(gl_query,"="); // last one
+
+function split_query(string, text)
+{
+	name = string.substring(0,string.indexOf(text));
+	value = string.substring(string.indexOf(text) + 1);
+	// for unsecapted
+	//eval("query_" + name + " = value;");
+	// for escapted
+	eval("query_" + name + " = unescape(value);");
+}
+/* End Query Lib */
+
+//------------ Start of Google Search ----------------------
+
+// this function checks if we need to just change the range status or change the status and do the search  
+
+function execSearch(gRange)
+{
+	var keyword = document.getElementById("search_keyword").value;
+	g_page_mode = gRange;
+	document.getElementById("sbar-range").value = g_page_mode;
+	var web_color = "#025655";
+	var web_decoration = "underline";
+	var web_weight = "normal";
+	var site_color = "#025655";
+	var site_decoration = "underline";
+	var site_weight = "normal";
+	var people_color = "#025655";
+	var people_decoration = "underline";
+	var people_weight = "normal";
+	var img_color = "#025655";
+	var img_decoration = "underline";
+	var img_weight = "normal";
+	//var map_color = "#025655";
+	//var map_decoration = "underline";
+	//var map_weight = "normal";
+	var video_color = "#025655";
+	var video_decoration = "underline";
+	var video_weight = "normal";
+
+	switch(gRange)
+	{
+		case 'web':
+			web_color = "#000";
+			web_decoration = "none";
+			web_weight = "bold";
+			break;
+		
+		case 'site':
+			site_color = "#000";
+			site_decoration = "none";
+			site_weight = "bold";
+			break;
+		
+		case 'people':
+			people_color = "#000";
+			people_decoration = "none";
+			people_weight = "bold";
+			break;		
+		
+		case 'img':
+			img_color = "#000";
+			img_decoration = "none";
+			img_weight = "bold";
+			break;	
+			
+		/*case 'map':
+			map_color = "#000";
+			map_decoration = "none";
+			map_weight = "bold";
+			window.open("https://web.archive.org/web/20100117104324/http://maps.icq.com/maps/","_parent");
+			break;*/
+			
+		case 'video':
+			video_color = "#000";
+			video_decoration = "none";
+			video_weight = "bold";
+			break;											
+	}
+	
+	document.getElementById("web").style.color = web_color;
+	document.getElementById("web").style.textDecoration = web_decoration;
+	document.getElementById("web").style.fontWeight = web_weight;
+	document.getElementById("site").style.color = site_color;
+	document.getElementById("site").style.textDecoration = site_decoration;
+	document.getElementById("site").style.fontWeight = site_weight;
+	document.getElementById("people").style.color = people_color;
+	document.getElementById("people").style.textDecoration = people_decoration;
+	document.getElementById("people").style.fontWeight = people_weight;
+	document.getElementById("img").style.color = img_color;
+	document.getElementById("img").style.textDecoration = img_decoration;
+	document.getElementById("img").style.fontWeight = img_weight;
+	document.getElementById("video").style.color = video_color;
+	document.getElementById("video").style.textDecoration = video_decoration;
+	document.getElementById("video").style.fontWeight = video_weight;
+	//document.getElementById("map").style.color = map_color;
+	//document.getElementById("map").style.textDecoration = map_decoration;
+	//document.getElementById("map").style.fontWeight = map_weight;
+}
+
+function submitSrch()
+{
+	var keyword = document.getElementById("search_keyword").value;
+	//document.getElementById("sbar-range").value = page;
+	var search_mode = '';
+	
+	if	(keyword != '')
+		document.getElementById("search").submit();
+	else
+		window.open("https://web.archive.org/web/20100117104324/http://search.icq.com/","_parent");
+
+	return false;
+}
+
+//check if search text exist and if so search otherwise do nothing
+function submitGSrch(frm)
+{
+	var ret = false; 
+	var elmSrch = document.getElementById('d02-txt');
+	
+	if(elmSrch.value != "")
+	{
+		ret = true;
+	}
+	else parent.document.location.href = "https://web.archive.org/web/20100117104324/http://search.icq.com/"
+	return ret;
+}
+//------------ End of Google Search ----------------------
+
+
+}
+/*
+     FILE ARCHIVED ON 10:43:24 Jan 17, 2010 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 11:41:31 Jun 30, 2023.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 120.072
+  exclusion.robots: 0.093
+  exclusion.robots.policy: 0.081
+  RedisCDXSource: 0.665
+  esindex: 0.009
+  LoadShardBlock: 50.671 (3)
+  PetaboxLoader3.datanode: 136.18 (5)
+  load_resource: 277.551 (2)
+  PetaboxLoader3.resolve: 161.054 (2)
+*/

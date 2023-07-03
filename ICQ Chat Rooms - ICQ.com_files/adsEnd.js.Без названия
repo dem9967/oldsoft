@@ -1,0 +1,66 @@
+var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+if (window.adsOne==0&&!window.adsOld){adsOne++
+if (window.adsDel1>0||(window.adsN4&&window.adsLNm>0))adsEndF()
+if (window.adsCN>0)adsCFn()}
+function adsOnL(){var w=window
+if (w.adsPrO)w.adsPrO()
+adsDelFn()}
+function adsEndF(){var w=window
+if (w.adsDel!=2||adsN4||(adsIE&&adsAV<=4)){if (w.adsN4){adsDelFn()}else{setTimeout('adsDelFn()', '1')}}else{w.adsPrO=w.onload
+w.onload=adsOnL}}
+function adsDelFn(){var w=window,n=0,s,z,r=1
+while (n<w.adsLNm){if (w.adsLMN[n]){s=w.adsLMN[n].split("|")
+if (s[0].indexOf('Img')!=-1){z=eval("document."+s[0])
+if(z)z.src=s[1]}else if(!w.adsN4){z=eval("window."+s[0])
+if ((adsN6||(adsIE&&document.getElementById))&&n==0){var y="try{if (z.location.href!='about:blank'){r=0}}catch (err){r=0}"
+eval(y)}
+if (z&&r){if (adsN6){z.location.replace(s[1])}
+else{z.location.href=s[1]}
+}}else{document.write("<LAYER SRC='"+s[1]+"'")
+document.write ("visibility=hidden onload=\"moveToAbsolute("+s[0]+".pageX,"+s[0]+".pageY-1);visibility='show';\"></LAYER>")}}
+n++}}
+function adsCol(x){var o=eval('window.adsCol'+x),z='adsCo'+x,d=document
+if (o.indexOf("no content")==-1&&o.indexOf("no_ad")==-1&&o.indexOf("<!---->")==-1){
+if (d.getElementById)q=d.getElementById(z)
+else if (d.all)q=d.all(z)
+adsCS=adsCo[x].split("|")
+if (adsCS[1]=='T'){q.innerHTML=o}else{if (o.indexOf('atwola_no_exp')==-1){q.width=adsCS[1]
+q.height=adsCS[2]}
+var y='try{q.src="javascript:parent.adsClFn('+x+')"}catch (err){}'
+eval(y)}}}
+function adsCFn(){for (var i=0;i<adsCN;i++){adsCS=adsCo[i].split("|")
+document.write('<SCRIPT LANGUAGE="JavaScript1.1" SRC="'+adsCS[0]+'C&hw=coll'+i+'">')
+document.write('</SCR','IPT>')}}
+
+}
+/*
+     FILE ARCHIVED ON 00:22:19 Feb 26, 2010 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 11:41:35 Jun 30, 2023.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 389.37
+  exclusion.robots: 0.067
+  exclusion.robots.policy: 0.058
+  cdx.remote: 0.054
+  esindex: 0.024
+  LoadShardBlock: 153.965 (3)
+  PetaboxLoader3.datanode: 233.134 (5)
+  load_resource: 1783.933 (2)
+  PetaboxLoader3.resolve: 1593.673 (2)
+*/

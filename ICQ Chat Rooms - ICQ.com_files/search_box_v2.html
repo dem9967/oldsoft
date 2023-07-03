@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0106)file:///C:/Users/user/Downloads/neo_material/icq/ICQ%20Chat%20Rooms%20-%20ICQ.com_files/search_box_v2.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" src="./bundle-playback.js.Без названия" charset="utf-8"></script>
+<script type="text/javascript" src="./wombat.js.Без названия" charset="utf-8"></script>
+<script type="text/javascript">
+  __wm.init("https://web.archive.org/web");
+  __wm.wombat("http://c.icq.com:80/include/template/search_box_v2.html","20100309060923","https://web.archive.org/","web","/_static/",
+	      "1268114963");
+</script>
+<link rel="stylesheet" type="text/css" href="./banner-styles.css">
+<link rel="stylesheet" type="text/css" href="./iconochive.css">
+<!-- End Wayback Rewrite JS Include -->
+
+			
+			<link rel="STYLESHEET" type="text/css" href="./site_v3a(1).css">
+			<script language="javascript" type="text/javascript" src="./header_c.js(1).Без названия"></script><script></script><script charset="utf-8" src="chrome-extension://donbcfbmhbcapadipfkeojnmajbakjdc/dist/ruffle.js?id=11998466282"></script>
+			<script type="text/javascript" language="JavaScript" src="./index.js.Без названия"></script>
+			<script type="text/javascript" language="javascript" src="./cookie_lib.js(1).Без названия"></script>
+			<script type="text/javascript" language="javascript">
+				var MPLinks_de = "Häufige Suchbegriffe,H2O Jacken,Anleihen Börse,Antivirus Software,Jeans Kleidung";
+				var MPLinks_cz = "Popular searches,iMax,Hledám práci,Prima tv,Velikonoční,Nové Auto,Porovnání cen";
+				var MPLinks_he = "חיפושים פופולריים,בגדי ספורט,מילונים,הולמס פלייס,השלמת בגרות,תואר ראשון,צימרים בצפון";
+				var MPLinks_ru = "Популярные запросы,Student grants,How to get a loan,Singles dating";
+				var MPLinks_bg = "Популярен търсения,Филми,DVD наем,Oбувки,Евтини ваканционни,Хороскопи";
+				var MPLinks_en = "Popular Searches,Student grants,How to get a loan,Singles dating";
+				var geo_cc = GetCookie("geo");
+				function GetLangStr()
+				{
+					var geo_mp_str = MPLinks_en;
+					var geo_links_str = "Web,Images,Video,ICQ.com,People";
+					var geo_str = new Array();
+					var search = "Search";
+					switch(geo_cc)
+					{
+						case "49":
+							geo_mp_str = MPLinks_de;
+							geo_links_str = "Web,Bilder,Video,ICQ.com,Leute";
+							search = "Suchen";
+							break;
+						case "42":
+							geo_mp_str = MPLinks_cz;
+							geo_links_str = "Web,Obrázky,Video,ICQ.com,Lid&eacute;";
+							search = "Hledat";
+							break;
+						case "972":
+							geo_mp_str = MPLinks_he;
+							geo_links_str = "אינטרנט,תמונות,וידאו,ICQ.com,אנשים";
+							search = "חיפוש";
+							break;
+						case "7":
+							geo_mp_str = MPLinks_ru;
+							geo_links_str = "Веб,Картинки,Видео,ICQ.com,Люди";
+							search = "Поиск";
+							break;
+						case "359":
+							geo_mp_str = MPLinks_bg;
+							geo_links_str = "Мрежата,Изображения,Видео,ICQ.com,Хора";
+							search = "Търси";
+							break;
+						default:
+							geo_mp_str = MPLinks_en;
+							geo_links_str = "Web,Images,Video,ICQ.com,People";
+							search = "Search";
+							break;
+					}
+					geo_str.push(geo_mp_str);
+					geo_str.push(geo_links_str);
+					geo_str.push(search);
+					return geo_str;
+				}
+				function GetTmpArray(str)
+				{
+					var tmpArr = str.split(",");
+					return tmpArr;
+				}
+				function RenderPage()
+				{
+					var geoStr = GetLangStr();
+					var geoLinksArr = new Array();
+					var geoMPArr = new Array();
+					var search = "";
+					if(geoStr.length == 3)
+					{
+						var geoLinksArr = GetTmpArray(geoStr[1]);
+						var geoMPArr = GetTmpArray(geoStr[0]);
+						var search = geoStr[2];
+					}
+					var cssSuf = "";
+					var top_links = document.getElementById("sb_3_1");
+					var holder = document.getElementById("sb_mp");
+					var btn = document.getElementById("sb_4");
+					var click_arr = new Array("web", "img", "video", "site", "people");
+					var tsuf = "";
+					
+					if(geo_cc=="972")
+					{
+						cssSuf = "h";
+						btn.className = btn.className + cssSuf;
+						top_links.className = top_links.className+cssSuf;
+						holder.className = holder.className+cssSuf;
+					}
+					document.getElementById("txt").className = "sb-3-2"+cssSuf;
+					var btn_logo_html = "<div class=\"sb-4-1\"><img src=\"http://c.icq.com/img/template/google_n.gif\" width=\"102\" height=\"14\" alt=\"Enhanced by Google\"></div>";
+					btn_logo_html += "<div class=\"sb-4-2"+cssSuf+"\"><div class=\"sb-4-2-1"+cssSuf+"\" onclick=\"submitSrch();\"><div>"+search+"</div></div>";
+					btn_logo_html += "<div class=\"sb-4-2-2"+cssSuf+"\" onclick=\"submitSrch();\"><img src=\"http://c.icq.com/img/template/b_end"+cssSuf+".gif\" width=\"28\" height=\"23\" border=\"0\" alt=\"\"></div></div>";
+					var linksHtmlOut = "";
+					if(geoLinksArr.length > 0)
+					{
+						for(var j=0;j<geoLinksArr.length;j++)
+						{
+							tsuf = j==0 ? "-s" : "";
+							linksHtmlOut += "<div class='sb-3-1-1"+tsuf+cssSuf+"' onclick='execSearch(\""+click_arr[j]+"\");' id='"+click_arr[j]+"' >"+geoLinksArr[j]+"</div>";
+							if(j<geoLinksArr.length-1)
+								linksHtmlOut += "<div class=\"sb-3-1-2"+cssSuf+"\">|</div>";
+						}
+					}
+					top_links.innerHTML = linksHtmlOut;
+					var spHtmlOut = "";
+					if(geoMPArr.length > 0)
+					{
+						spHtmlOut = "<div class='sb-mp-1"+cssSuf+"'>"+geoMPArr[0]+":</div>";
+						for(var i=1;i<geoMPArr.length;i++)
+						{
+							spHtmlOut += "<div class='sb-mp-2"+cssSuf+"'><a href='https://web.archive.org/web/20100309060923/http://search.icq.com/search/results.php?q="+encodeURI(geoMPArr[i])+"&ch_id=mps&icid=sbip' target='_top' class='sb-mp-2a"+cssSuf+"'>"+geoMPArr[i]+"</a></div>";
+						}
+					}
+					btn.innerHTML = btn_logo_html;
+					holder.innerHTML = spHtmlOut;
+				}
+			</script>
+			</head>
+			<body onload="RenderPage()">
+			
+			
+			
+</body></html>

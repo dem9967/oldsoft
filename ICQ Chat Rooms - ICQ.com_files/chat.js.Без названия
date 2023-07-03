@@ -1,0 +1,83 @@
+var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+function show_chat()
+{
+	document.getElementById('ca2').style.display = 'none';
+	document.getElementById('ca1').style.display = 'block';
+}
+
+var open_cat_flag;
+function open_sub_cat(cat_id){
+	if(!open_cat_flag) {
+		var selected_cat = document.getElementById('sel_cat');
+		if(selected_cat.title != 'Main') {
+			selected_cat.id = 'top_'+selected_cat.title;
+			open_cat_flag = selected_cat.title;
+		}
+	}
+	var category = document.getElementById(cat_id);
+	var top_cat = document.getElementById('top_'+cat_id);
+	var cat_img = document.getElementById(cat_id+'_img');
+	var cat_link = document.getElementById('lnk_'+cat_id);
+
+	if(category.style.display == 'block' || category.style.display == '') {
+		cat_img.style.display = 'inline';
+		category.style.display = 'none';
+		top_cat.className = 'd1-2-1';
+		cat_link.className = '';
+	} else {
+		if(open_cat_flag) {
+			document.getElementById(open_cat_flag+'_img').style.display = 'inline';
+			document.getElementById(open_cat_flag).style.display = 'none';
+			document.getElementById('top_'+open_cat_flag).className = 'd1-2-1';
+			document.getElementById('lnk_'+open_cat_flag).className = '';
+		}
+		open_cat_flag = cat_id;
+		cat_img.style.display = 'none';
+		category.style.display = 'block';
+		top_cat.className = 'd1-2-1-on';
+		cat_link.className = 'on';
+	}
+}
+
+function change_to_lang(lang)
+{
+	
+	var gl_expireDate = new Date;
+	gl_expireDate.setMonth(gl_expireDate.getMonth()+1);
+	SetCookie("icq_lang", lang , gl_expireDate,"/");
+	window.location.reload(true);
+}
+
+
+}
+/*
+     FILE ARCHIVED ON 00:04:21 Nov 13, 2010 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 11:41:31 Jun 30, 2023.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 97.97
+  exclusion.robots: 0.09
+  exclusion.robots.policy: 0.079
+  cdx.remote: 0.077
+  esindex: 0.012
+  LoadShardBlock: 68.212 (3)
+  PetaboxLoader3.datanode: 65.172 (4)
+  load_resource: 105.869
+  PetaboxLoader3.resolve: 66.203
+*/

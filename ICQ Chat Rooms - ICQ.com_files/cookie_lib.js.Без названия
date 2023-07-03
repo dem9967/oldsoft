@@ -1,0 +1,86 @@
+var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+//Java script cookie lib
+
+function getCookieVal ( offset ) {
+  var endstr = document.cookie.indexOf (";", offset);
+  if ( endstr == -1 )
+    endstr = document.cookie.length;
+  return unescape(document.cookie.substring(offset, endstr));
+}
+
+function SetCookie ( name, value, expires, path, domain, secure ) {
+  if ( name.length == 0 ) return;
+
+  document.cookie = name + "=" + escape (value) +
+    ((expires) ? "; expires=" + expires.toGMTString() : "Never") +
+    ((path) ? "; path=" + path : "") +
+    ((domain) ? "; domain=" + domain : "") +
+    ((secure) ? "; secure" : "");
+}
+
+function GetCookie ( name ) {
+  if ( name.length == 0 ) return null;
+  var arg = name + "=";
+  var alen = arg.length;
+  var clen = document.cookie.length;
+  var i = 0;
+  while ( i < clen ) {
+    var j = i + alen;
+    if ( document.cookie.substring(i, j) == arg ) {
+      return getCookieVal (j);
+	}
+    i = document.cookie.indexOf(" ", i) + 1;
+    if ( i == 0 ) break;
+  }
+ 
+ 	 return null;
+}
+
+function DeleteCookie ( name,path,domain ) {
+  if (GetCookie(name)) {
+    document.cookie = name + "=" +
+      ((path) ? "; path=" + path : "") +
+      ((domain) ? "; domain=" + domain : "") +
+      "; expires=Thu, 01-Jan-70 00:00:01 GMT";
+  }
+}
+
+function FixCookieDate ( date ) {
+  var base = new Date(0);
+  var skew = base.getTime(); // dawn of (Unix) time - should be 0
+  if (skew > 0)  // Except on the Mac - ahead of its time
+    date.setTime (date.getTime() - skew);
+}
+
+}
+/*
+     FILE ARCHIVED ON 00:04:18 Nov 13, 2010 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 11:41:31 Jun 30, 2023.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 124.327
+  exclusion.robots: 0.082
+  exclusion.robots.policy: 0.071
+  cdx.remote: 0.056
+  esindex: 0.009
+  LoadShardBlock: 78.647 (3)
+  PetaboxLoader3.datanode: 139.649 (4)
+  load_resource: 146.757
+  PetaboxLoader3.resolve: 64.692
+*/

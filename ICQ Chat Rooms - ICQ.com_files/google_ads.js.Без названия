@@ -1,0 +1,98 @@
+var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+google_ad_client = 'icq_js';
+google_kw_type = 'broad';
+google_ad_output = 'js';
+//google_max_num_ads = 16;
+google_page_url = '';
+google_hints     = '';
+google_safe      = 'high';
+//google_encoding  = 'utf8';
+//google_ad_channel = 'main1';
+google_ad_width = 0;
+google_ad_height = 0;
+gl_google_ads_loaded = false;
+gl_wait_for_ads = true;
+//google_adtest = 'on'; // remove when going live *********************************************************************************************
+
+setTimeout('check_google_loaded()', 8000);
+
+
+function substitude_google_ads()
+{
+	var adsBlock = document.getElementById("add-0");
+	if ( adsBlock )
+		adsBlock.style.display = "none";
+}
+
+function google_ad_request_done(google_ads) 
+{
+	try
+	{
+		if (google_ads.length > 0 && gl_wait_for_ads)
+		{
+			ads_num = google_ads.length;
+			for(i = 0; i < ads_num; i++)
+			{
+				document.getElementById('add-'+i+'-1').innerHTML = "<a target='google' href='"+ google_ads[i].url + "' class='ad3-1-lnk'>" + google_ads[i].line1+ "</a>";
+				document.getElementById('add-'+i+'-2').innerHTML = "<a target='google' href='"+ google_ads[i].url + "' class='ad3-2-lnk'>" + google_ads[i].line2 + " " + google_ads[i].line3 + "</a>";
+				document.getElementById('add-'+i+'-3').innerHTML = "<a target='google' href='"+ google_ads[i].url + "' class='ad3-3-lnk'>" + google_ads[i].visible_url+ "</a>";
+				try{
+				document.getElementById('add-'+i).style.display = "block";
+				}catch(e){}
+			}
+		}
+		else
+		{
+			substitude_google_ads();
+		}
+		gl_google_ads_loaded = true
+	}
+	catch(e){}
+	gl_google_ads_loaded = true;
+}
+
+function check_google_loaded()
+{
+	try
+	{
+		if(!gl_google_ads_loaded)
+		{
+			gl_wait_for_ads = false;
+			substitude_google_ads();
+		}
+	}
+	catch(e){}	
+}
+
+}
+/*
+     FILE ARCHIVED ON 00:04:25 Nov 13, 2010 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 11:41:31 Jun 30, 2023.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 162.388
+  exclusion.robots: 0.081
+  exclusion.robots.policy: 0.071
+  cdx.remote: 0.062
+  esindex: 0.032
+  LoadShardBlock: 137.455 (3)
+  PetaboxLoader3.datanode: 129.632 (4)
+  load_resource: 129.658
+  PetaboxLoader3.resolve: 62.995
+*/
