@@ -114,3 +114,21 @@ button {
 .fullscreen {
   font-size: 24px;
 }
+html, body {
+	margin: 3px;
+	font-family: Tahoma, Arial, sans-serif;
+	font-size: 11px;
+}
+
+td {
+    vertical-align: top;
+}
+
+img {
+	border: 0;
+}
+
+* {
+    text-shadow: 0px 0px 2px RGBA(0,0,0,0.25);
+}
+
