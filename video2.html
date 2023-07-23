@@ -94,7 +94,50 @@
                               </div>
 
                             
-                    		<h2>Первое видео</h2>			</td>
+                    		  <style>
+                                .video-title {
+                                  font-size: 24px;
+                                  font-weight: bold;
+                                }
+
+                                .video-description {
+                                  display: none;
+                                  font-size: 16px;
+                                  color: #555;
+                                }
+
+                                .show-description {
+                                  margin-top: 10px;
+                                  cursor: pointer;
+                                  color: #fff;
+                                  background-color: #007bff;
+                                  border: none;
+                                  padding: 10px 20px;
+                                  font-size: 14px;
+                                  border-radius: 5px;
+                                }
+                              </style>
+                            <body>
+                              <h1 class="video-title">5 лучших симуляторов в роблокс | N_M</h1>
+                              <p class="video-description" id="video-description">Вот все обейщанные ссылочки:
+                              <br><a href="https://forms.gle/dgvJ7WWx8fNkEVVg8">https://forms.gle/dgvJ7WWx8fNkEVVg8 - Опрос для сайта!</a></p>
+                              <button class="show-description" id="show-description">Показать описание</button>
+
+                              <script>
+                                // JavaScript код для открытия описания ролика по клику на кнопку
+                                var descriptionElement = document.getElementById("video-description");
+                                var showDescriptionElement = document.getElementById("show-description");
+
+                                showDescriptionElement.addEventListener("click", function() {
+                                  if (descriptionElement.style.display === "none") {
+                                    descriptionElement.style.display = "block";
+                                    showDescriptionElement.textContent = "Скрыть описание";
+                                  } else {
+                                    descriptionElement.style.display = "none";
+                                    showDescriptionElement.textContent = "Показать описание";
+                                  }
+                                });
+                              </script>			</td>
 
                 
 
